@@ -1,8 +1,8 @@
-import { useMemo } from "react"
-import { QueryClient, useQueryClient } from "react-query"
+// import { useMemo } from "react"
+// import { QueryClient, useQueryClient } from "react-query"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 
-export const createAppRouter = (queryClient: QueryClient) =>
+const createAppRouter = () =>
   createBrowserRouter([
     {
       path: "/",
@@ -11,10 +11,18 @@ export const createAppRouter = (queryClient: QueryClient) =>
         return { Component: LandingRoute }
       },
     },
+    {
+      path: "*",
+      lazy: async () => {
+        const { NotFoundRoute } = await import("./routes/not-found")
+        return { Component: NotFoundRoute }
+      },
+    },
   ])
 
 export const AppRouter = () => {
-  const queryClient = useQueryClient()
-  const router = useMemo(() => createAppRouter(queryClient), [queryClient])
+  // const queryClient = useQueryClient()
+  // const router = useMemo(() => createAppRouter(queryClient), [queryClient])
+  const router = createAppRouter()
   return <RouterProvider router={router} />
 }
