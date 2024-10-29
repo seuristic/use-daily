@@ -12,6 +12,20 @@ const createAppRouter = () =>
       },
     },
     {
+      path: "/login",
+      lazy: async () => {
+        const { LoginRoute } = await import("./routes/auth/login")
+        return { Component: LoginRoute }
+      },
+    },
+    {
+      path: "/signup",
+      lazy: async () => {
+        const { SignupRoute } = await import("./routes/auth/signup")
+        return { Component: SignupRoute }
+      },
+    },
+    {
       path: "*",
       lazy: async () => {
         const { NotFoundRoute } = await import("./routes/not-found")

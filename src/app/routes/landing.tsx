@@ -1,3 +1,10 @@
+import { Navbar } from "@/components/navbar"
+
 export function LandingRoute() {
-  return <div>LandingRoute</div>
+  return (
+    <main>
+      <Navbar />
+      <div className="h-screen" />
+    </main>
+  )
 }
