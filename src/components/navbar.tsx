@@ -1,11 +1,15 @@
 import { useState } from "react"
 import { Menu, X } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import { Link } from "react-router-dom"
-import { cn } from "@/lib/utils"
+
+import { Button } from "@/components/ui/button"
+import { capitalize, cn } from "@/lib/utils"
+import { ModeToggle, useTheme } from "./theme"
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+  const { theme } = useTheme()
 
   return (
     <nav className="fixed top-0 z-10 w-full border-b border-border bg-background/80 backdrop-blur-sm">
@@ -32,6 +36,7 @@ export const Navbar = () => {
               <Button asChild>
                 <Link to="/signup">Sign Up</Link>
               </Button>
+              <ModeToggle />
             </div>
           </div>
           <div className="md:hidden">
@@ -68,6 +73,13 @@ export const Navbar = () => {
             <Button asChild className="w-full justify-center">
               <Link to="/signup">Sign Up</Link>
             </Button>
+            <div className="flex items-center gap-x-4 text-sm md:hidden">
+              <span className="text-muted-foreground">Change theme:</span>
+              <div className="inline-flex items-center gap-x-2 font-medium">
+                <span>{capitalize(theme)}</span>
+                <ModeToggle />
+              </div>
+            </div>
           </div>
         </div>
       )}
