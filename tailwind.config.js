@@ -51,6 +51,20 @@ export default {
           5: "hsl(var(--chart-5))",
         },
       },
+      fontFamily: {
+        sans: [
+          "var(--font-inter)",
+          {
+            fontFeatureSettings:
+              '"calt", "dlig", "tnum", "zero", "ss01", "cv01", "cv09", "cv02", "cv03", "cv04", "cv10", "cv06", "cv11", "ss08"',
+          },
+        ],
+      },
+      fontSize: {
+        "responsive-md": "clamp(1rem, 12vw + 3rem, 4rem)",
+        "responsive-lg": "clamp(1rem, 8vw + 4rem, 10rem)",
+        "responsive-xl": "clamp(1.5rem, 3vw + 1.5rem, 3rem)",
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],

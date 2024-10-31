@@ -56,9 +56,17 @@
     --chart-5: 340 75% 55%;
   }
 }
+
 @layer base {
+  :root {
+    --font-inter: InterVariable;
+    --font-inter-italic: "InterVariable-Italic";
+  }
   * {
-    @apply border-border;
+    @apply border-border font-sans;
+  }
+  html {
+    scroll-behavior: smooth;
   }
   body {
     @apply bg-background text-foreground;
