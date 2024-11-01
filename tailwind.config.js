@@ -5,6 +5,7 @@ export default {
   theme: {
     extend: {
       borderRadius: {
+        xl: "calc(var(--radius) + 2px)",
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
@@ -53,7 +54,7 @@ export default {
       },
       fontFamily: {
         sans: [
-          "var(--font-inter)",
+          "var(--font-inter), sans-serif",
           {
             fontFeatureSettings:
               '"calt", "dlig", "tnum", "zero", "ss01", "cv01", "cv09", "cv02", "cv03", "cv04", "cv10", "cv06", "cv11", "ss08"',
@@ -61,9 +62,8 @@ export default {
         ],
       },
       fontSize: {
-        "responsive-md": "clamp(1rem, 12vw + 3rem, 4rem)",
-        "responsive-lg": "clamp(1rem, 8vw + 4rem, 10rem)",
-        "responsive-xl": "clamp(1.5rem, 3vw + 1.5rem, 3rem)",
+        "responsive-base": "clamp(1rem, 8vw + 2rem, 4rem)",
+        "responsive-lg": "clamp(1rem, 8vw + 4rem, 8rem)",
       },
     },
   },

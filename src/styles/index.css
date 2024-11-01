@@ -66,7 +66,7 @@
     @apply border-border font-sans;
   }
   html {
-    scroll-behavior: smooth;
+    @apply scroll-smooth;
   }
   body {
     @apply bg-background text-foreground;
@@ -76,5 +76,9 @@
 @layer utilities {
   .link {
     @apply inline-flex h-10 items-center rounded-md px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground;
+  }
+
+  .section {
+    @apply mx-auto h-full min-h-svh max-w-screen-xl px-4 py-16 md:px-8 md:py-20;
   }
 }

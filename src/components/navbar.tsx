@@ -22,12 +22,12 @@ export const Navbar = () => {
           </div>
           <div className="hidden space-x-4 md:flex md:flex-1 md:items-center md:justify-end">
             <div className="flex items-baseline gap-x-2">
-              <Link to="#features" className="link">
+              <a href="#features" className="link">
                 Features
-              </Link>
-              <Link to="#contribute" className="link">
+              </a>
+              <a href="#contribute" className="link">
                 Contribute
-              </Link>
+              </a>
             </div>
             <div className="flex items-center gap-x-4">
               <Button asChild variant="outline">
