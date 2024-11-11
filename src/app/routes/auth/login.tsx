@@ -1,6 +1,5 @@
-"use client"
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -11,20 +10,38 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Icons } from "@/components/ui/icons"
+import { useState } from "react"
+import { signInWithPopup } from "firebase/auth"
+import { auth, provider } from "@/configs/firebase"
 
-export const LoginRoute = () => {
+export function LoginRoute() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [error, setError] = useState<string | null>(null)
 
-  const handleGoogleLogin = async () => {
+  const signInWithGoogle = async () => {
     setIsLoading(true)
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000))
-      console.log("Google login initiated")
-    } catch (error) {
-      console.error("Login failed", error)
+      const response = await signInWithPopup(auth, provider)
+      console.log(
+        "Successfully authenticated with user details:",
+        response.user,
+      )
+    } catch (e: unknown) {
+      setError((e as Error).message as string)
     } finally {
       setIsLoading(false)
     }
+  }
+  if (error) {
+    return (
+      <div className="text-destructive-foreground">
+        Error occurred in authentication setup with Google
+      </div>
+    )
+  }
+
+  if (isLoading) {
+    return <div className="">Loader</div>
   }
 
   return (
@@ -39,7 +56,7 @@ export const LoginRoute = () => {
         <CardContent className="flex justify-center">
           <Button
             variant="outline"
-            onClick={handleGoogleLogin}
+            onClick={signInWithGoogle}
             disabled={isLoading}
           >
             {isLoading ? (

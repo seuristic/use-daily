@@ -10,17 +10,23 @@ import {
 } from "@/components/ui/card"
 import { Icons } from "@/components/ui/icons"
 import { Link } from "react-router-dom"
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth"
+import { auth } from "@/configs/firebase"
 
 export const SignupRoute = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [error, setError] = useState<string | null>(null)
 
-  const handleGoogleSignup = async () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const signInWithGoogle = async () => {
     setIsLoading(true)
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000))
-      console.log("Google signup initiated")
-    } catch (error) {
-      console.error("Signup failed", error)
+      const provider = new GoogleAuthProvider()
+      await signInWithPopup(auth, provider)
+      // success
+    } catch (e: unknown) {
+      setError((e as Error).message as string)
     } finally {
       setIsLoading(false)
     }
@@ -40,7 +46,7 @@ export const SignupRoute = () => {
         <CardContent className="flex justify-center">
           <Button
             variant="outline"
-            onClick={handleGoogleSignup}
+            onClick={signInWithGoogle}
             disabled={isLoading}
           >
             {isLoading ? (

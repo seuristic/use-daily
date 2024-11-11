@@ -201,7 +201,7 @@ export function LandingRoute() {
       </div>
 
       {/* Footer */}
-      <footer className="mt-40 w-full border-t border-border/50 text-sm">
+      <footer className="mt-40 w-full border-t border-border text-sm">
         <div className="mx-auto max-w-screen-xl px-4 py-4 md:px-8 md:py-8">
           <div className="flex flex-wrap gap-16 md:flex-row md:gap-32">
             <div className="flex w-full flex-shrink-0 flex-col gap-2 md:w-fit">
@@ -211,27 +211,45 @@ export function LandingRoute() {
               <p className="text-muted-foreground">Founded @2024</p>
             </div>
             <div className="flex flex-col gap-2 md:ml-auto">
-              <span className="text-muted">Links</span>
-              <ul className="text-muted-foreground">
-                <li className="">Features</li>
-                <li className="">Contribute</li>
-                <li className="">Github</li>
+              <span className="text-secondary-foreground">Links</span>
+              <ul className="space-y-2 text-muted-foreground">
+                <li>
+                  <Link to="#feature">Features</Link>
+                </li>
+                <li>
+                  <Link to="#feature">Contribute</Link>
+                </li>
+                <li>
+                  <Link to="#feature">Github</Link>
+                </li>
               </ul>
             </div>
             <div className="flex flex-col gap-2">
-              <span className="text-muted">Socials</span>
-              <ul className="text-muted-foreground">
-                <li className="">Twitter</li>
-                <li className="">Facebook</li>
-                <li className="">Youtube</li>
+              <span className="text-secondary-foreground">Socials</span>
+              <ul className="space-y-2 text-muted-foreground">
+                <li>
+                  <Link to="#feature">Twitter</Link>
+                </li>
+                <li>
+                  <Link to="#feature">Facebook</Link>
+                </li>
+                <li>
+                  <Link to="#feature">Youtube</Link>
+                </li>
               </ul>
             </div>
             <div className="flex flex-col gap-2">
-              <span className="text-muted">Socials</span>
-              <ul className="text-muted-foreground">
-                <li className="">Twitter</li>
-                <li className="">Facebook</li>
-                <li className="">Youtube</li>
+              <span className="text-secondary-foreground">Socials</span>
+              <ul className="space-y-2 text-muted-foreground">
+                <li>
+                  <Link to="#feature">Twitter</Link>
+                </li>
+                <li>
+                  <Link to="#feature">Facebook</Link>
+                </li>
+                <li>
+                  <Link to="#feature">Youtube</Link>
+                </li>
               </ul>
             </div>
           </div>
