@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -35,7 +33,7 @@ export function LoginRoute() {
   if (error) {
     return (
       <div className="text-destructive-foreground">
-        Error occurred in authentication setup with Google
+        Error (Google sign-in): {error}
       </div>
     )
   }

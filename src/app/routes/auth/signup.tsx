@@ -1,4 +1,3 @@
-import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -8,30 +7,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Icons } from "@/components/ui/icons"
 import { Link } from "react-router-dom"
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth"
-import { auth } from "@/configs/firebase"
 
 export const SignupRoute = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [error, setError] = useState<string | null>(null)
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const signInWithGoogle = async () => {
-    setIsLoading(true)
-    try {
-      const provider = new GoogleAuthProvider()
-      await signInWithPopup(auth, provider)
-      // success
-    } catch (e: unknown) {
-      setError((e as Error).message as string)
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
   return (
     <div className="flex min-h-screen items-center justify-center bg-background">
       <Card className="w-[350px]">
@@ -44,18 +22,7 @@ export const SignupRoute = () => {
           </CardDescription>
         </CardHeader>
         <CardContent className="flex justify-center">
-          <Button
-            variant="outline"
-            onClick={signInWithGoogle}
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            ) : (
-              <Icons.google className="mr-2 h-4 w-4" />
-            )}
-            {isLoading ? "Signing Up..." : "Sign up with Google"}
-          </Button>
+          <Button variant="outline">Sign-in</Button>
         </CardContent>
         <CardFooter className="flex flex-col space-y-4">
           <p className="px-8 text-center text-sm text-muted-foreground">
