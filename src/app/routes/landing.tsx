@@ -10,9 +10,9 @@ import {
 import { Navbar } from "@/components/navbar"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Icons } from "@/components/ui/icons"
+import { GithubIcon } from "@/components/ui/icons"
 
-export function LandingRoute() {
+export const LandingRoute = () => {
   return (
     <main className="w-full overflow-x-hidden">
       <Navbar />
@@ -30,10 +30,10 @@ export function LandingRoute() {
         </div>
         <div className="flex items-center justify-center gap-x-4">
           <Button asChild>
-            <Link to="/signup">Let's start</Link>
+            <Link to="/auth/signup">Get started</Link>
           </Button>
           <Button asChild variant="outline">
-            <Link to="/login">Already a user?</Link>
+            <Link to="/auth/login">Existing user</Link>
           </Button>
         </div>
         <div className="bg-gradient absolute left-1/2 top-1/2 -z-10 size-[256px] translate-x-full rounded-full bg-muted-foreground/50 blur-[1024px]" />
@@ -191,7 +191,7 @@ export function LandingRoute() {
               </p>
               <Button asChild className="w-full font-mono font-bold">
                 <Link to="#contribute">
-                  <Icons.github size={20} className="mr-2" /> github/use-daily{" "}
+                  <GithubIcon size={20} className="mr-2" /> github/use-daily{" "}
                   <ArrowUpRight size={20} className="ml-2" />
                 </Link>
               </Button>

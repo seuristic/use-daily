@@ -1,10 +1,13 @@
 import React from "react"
 
-interface GoogleProps extends React.SVGProps<SVGSVGElement> {
+interface GoogleIconProps extends React.SVGProps<SVGSVGElement> {
   size?: number
 }
 
-export const Google: React.FC<GoogleProps> = ({ size = 24, ...props }) => (
+export const GoogleIcon: React.FC<GoogleIconProps> = ({
+  size = 24,
+  ...props
+}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     height={size}

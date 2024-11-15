@@ -1,25 +1,24 @@
-import { signInWithPopup } from "firebase/auth"
+import { signInWithPopup, User } from "firebase/auth"
 import { auth, provider } from "@/configs/firebase"
-import { useState } from "react"
+import { create } from "zustand"
 
-export const useAuth = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [error, setError] = useState<string | null>(null)
+type AuthType = {
+  user: User | null
+  setUser: (user: User | null) => void
+}
 
-  const signInWithGoogle = async () => {
-    setIsLoading(true)
-    try {
-      const response = await signInWithPopup(auth, provider)
-      console.log(
-        "Successfully authenticated with user details:",
-        response.user,
-      )
-    } catch (e: unknown) {
-      setError((e as Error).message as string)
-    } finally {
-      setIsLoading(false)
-    }
+export const useAuth = create<AuthType>()((set) => ({
+  user: null,
+  setUser: (user) => set(() => ({ user })),
+}))
+
+export const login = async (onSuccess?: () => void) => {
+  try {
+    const response = await signInWithPopup(auth, provider)
+    if (onSuccess) onSuccess()
+    return response
+  } catch (e) {
+    console.error(e)
+    throw new Error("Something went wrong while authenticating with Google")
   }
-
-  return { user: "", isLoading, error, signInWithGoogle }
 }

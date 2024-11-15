@@ -1,10 +1,13 @@
 import React from "react"
 
-interface GithubProps extends React.SVGProps<SVGSVGElement> {
+interface GithubIconProps extends React.SVGProps<SVGSVGElement> {
   size?: number
 }
 
-export const Github: React.FC<GithubProps> = ({ size = 24, ...props }) => (
+export const GithubIcon: React.FC<GithubIconProps> = ({
+  size = 24,
+  ...props
+}) => (
   <svg
     width={size}
     height={size}

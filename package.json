@@ -26,7 +26,8 @@
     "react-helmet-async": "^2.0.5",
     "react-router-dom": "^6.28.0",
     "tailwind-merge": "^2.5.2",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "zustand": "^5.0.1"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^3.2.1",

@@ -31,10 +31,10 @@ export const Navbar = () => {
             </div>
             <div className="flex items-center gap-x-4">
               <Button asChild variant="outline">
-                <Link to="/login">Login</Link>
+                <Link to="/auth/login">Login</Link>
               </Button>
               <Button asChild>
-                <Link to="/signup">Sign Up</Link>
+                <Link to="/auth/signup">Sign Up</Link>
               </Button>
               <ModeToggle />
             </div>
@@ -68,10 +68,10 @@ export const Navbar = () => {
           </div>
           <div className="space-y-2 px-4 py-4">
             <Button asChild variant="outline" className="w-full justify-center">
-              <Link to="/login">Login</Link>
+              <Link to="/auth/login">Login</Link>
             </Button>
             <Button asChild className="w-full justify-center">
-              <Link to="/signup">Sign Up</Link>
+              <Link to="/auth/signup">Sign Up</Link>
             </Button>
             <div className="flex items-center gap-x-4 text-sm md:hidden">
               <span className="text-muted-foreground">Change theme:</span>

@@ -2,6 +2,8 @@
 // import { QueryClient, useQueryClient } from "react-query"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import { AuthSkeleton } from "@/components/skeletons/auth"
+import { AppRoute } from "./routes/app"
+import { ProtectedRoute } from "@/features/auth/components/protected-route"
 
 const createAppRouter = () =>
   createBrowserRouter(
@@ -14,20 +16,28 @@ const createAppRouter = () =>
         },
       },
       {
-        path: "/login",
+        path: "/auth/login",
         lazy: async () => {
           const { LoginRoute } = await import("./routes/auth/login")
           return { Component: LoginRoute }
         },
-        HydrateFallback: AuthSkeleton,
+        // HydrateFallback: AuthSkeleton,
       },
       {
-        path: "/signup",
+        path: "/auth/signup",
         lazy: async () => {
           const { SignupRoute } = await import("./routes/auth/signup")
           return { Component: SignupRoute }
         },
         HydrateFallback: AuthSkeleton,
+      },
+      {
+        path: "/app",
+        element: (
+          <ProtectedRoute>
+            <AppRoute />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "*",
