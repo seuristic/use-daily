@@ -9,7 +9,11 @@ import {
 } from "@/components/ui/card"
 import { Link } from "react-router-dom"
 
-export const SignupForm = () => {
+type SignupFormProps = {
+  onSuccess: () => void
+}
+
+export const SignupForm = ({ onSuccess }: SignupFormProps) => {
   return (
     <Card className="w-[350px]">
       <CardHeader className="space-y-1">
@@ -21,7 +25,9 @@ export const SignupForm = () => {
         </CardDescription>
       </CardHeader>
       <CardContent className="flex justify-center">
-        <Button variant="outline">Sign-in</Button>
+        <Button variant="outline" onClick={onSuccess}>
+          Sign-in
+        </Button>
       </CardContent>
       <CardFooter className="flex flex-col space-y-4">
         <p className="px-8 text-center text-sm text-muted-foreground">
