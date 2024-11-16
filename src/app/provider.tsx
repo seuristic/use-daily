@@ -8,6 +8,7 @@ import { HelmetProvider } from "react-helmet-async"
 import { MainErrorFallback } from "@/components/error/main"
 import { queryConfig } from "@/lib/query"
 import { ThemeProvider } from "@/components/theme"
+import { AuthProvider } from "@/features/auth/components/provider"
 
 type AppProviderProps = {
   children: React.ReactNode
@@ -26,9 +27,11 @@ export const AppProvider = ({ children }: AppProviderProps) => {
       <ThemeProvider>
         <ErrorBoundary FallbackComponent={MainErrorFallback}>
           <HelmetProvider>
-            <QueryClientProvider client={queryClient}>
-              {children}
-            </QueryClientProvider>
+            <AuthProvider>
+              <QueryClientProvider client={queryClient}>
+                {children}
+              </QueryClientProvider>
+            </AuthProvider>
           </HelmetProvider>
         </ErrorBoundary>
       </ThemeProvider>

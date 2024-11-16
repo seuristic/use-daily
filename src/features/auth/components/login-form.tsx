@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { GoogleIcon } from "@/components/ui/icons"
-import { login, useAuth } from "@/lib/auth"
+import { login, useAuth } from "@/features/auth/hooks/useAuth"
 import { LoaderIcon } from "lucide-react"
 import { useState } from "react"
 
@@ -22,7 +22,6 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
 
   const handleLogin = async () => {
     setIsLoading(true)
-
     try {
       const response = await login(onSuccess)
       setUser(response.user)

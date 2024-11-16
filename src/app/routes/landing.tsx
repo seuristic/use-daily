@@ -19,6 +19,7 @@ export const LandingRoute = () => {
 
       {/* Hero */}
       <div className="section relative flex flex-col items-center justify-center gap-y-20">
+        <Link to="/app">to App</Link>
         <div className="flex w-full flex-col items-center gap-y-12 text-center">
           <h1 className="text-responsive-base font-bold leading-[1] md:text-responsive-lg">
             Elevate Productivity

@@ -1,9 +1,10 @@
 // import { useMemo } from "react"
 // import { QueryClient, useQueryClient } from "react-query"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
-import { AuthSkeleton } from "@/components/skeletons/auth"
+// import { AuthSkeleton } from "@/components/skeletons/auth"
 import { AppRoute } from "./routes/app"
 import { ProtectedRoute } from "@/features/auth/components/protected-route"
+import { DashboardRoute } from "./routes/app/dashboard"
 
 const createAppRouter = () =>
   createBrowserRouter(
@@ -29,7 +30,15 @@ const createAppRouter = () =>
           const { SignupRoute } = await import("./routes/auth/signup")
           return { Component: SignupRoute }
         },
-        HydrateFallback: AuthSkeleton,
+        // HydrateFallback: AuthSkeleton,
+      },
+      {
+        path: "/dashboard",
+        element: (
+          <ProtectedRoute>
+            <DashboardRoute />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/app",
@@ -38,6 +47,12 @@ const createAppRouter = () =>
             <AppRoute />
           </ProtectedRoute>
         ),
+        // children: [
+        //   {
+        //     path: 'task',
+        //     lazy:
+        //   }
+        // ]
       },
       {
         path: "*",
