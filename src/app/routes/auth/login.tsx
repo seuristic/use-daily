@@ -10,7 +10,7 @@ export const LoginRoute = () => {
   return (
     <AuthLayout title={"Login"}>
       <LoginForm
-        onSuccess={() => navigate(`${redirectTo ? `${redirectTo}` : "/app"}`)}
+        onSuccess={() => navigate(`${redirectTo ? `${redirectTo}` : "/apps"}`)}
       />
     </AuthLayout>
   )

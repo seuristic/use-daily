@@ -2,9 +2,6 @@
 // import { QueryClient, useQueryClient } from "react-query"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 // import { AuthSkeleton } from "@/components/skeletons/auth"
-import { AppRoute } from "./routes/app"
-import { ProtectedRoute } from "@/features/auth/components/protected-route"
-import { DashboardRoute } from "./routes/app/dashboard"
 
 const createAppRouter = () =>
   createBrowserRouter(
@@ -34,25 +31,30 @@ const createAppRouter = () =>
       },
       {
         path: "/dashboard",
-        element: (
-          <ProtectedRoute>
-            <DashboardRoute />
-          </ProtectedRoute>
-        ),
+        lazy: async () => {
+          const { DashboardRoute } = await import("./routes/app/dashboard")
+          return { Component: DashboardRoute }
+        },
       },
       {
         path: "/app",
-        element: (
-          <ProtectedRoute>
-            <AppRoute />
-          </ProtectedRoute>
-        ),
-        // children: [
-        //   {
-        //     path: 'task',
-        //     lazy:
-        //   }
-        // ]
+        lazy: async () => {
+          const { AppRoute } = await import("./routes/app")
+          return { Component: AppRoute }
+        },
+        children: [
+          {
+            path: "task",
+            element: <div>TASK APP</div>,
+          },
+        ],
+      },
+      {
+        path: "/apps",
+        lazy: async () => {
+          const { AppListRoute } = await import("./routes/app/app-list")
+          return { Component: AppListRoute }
+        },
       },
       {
         path: "*",

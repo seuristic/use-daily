@@ -7,7 +7,7 @@ import {
   Timer,
 } from "lucide-react"
 
-import { Navbar } from "@/components/navbar"
+import { LandingNavbar } from "@/components/navbars/landing-navbar"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { GithubIcon } from "@/components/ui/icons"
@@ -15,7 +15,7 @@ import { GithubIcon } from "@/components/ui/icons"
 export const LandingRoute = () => {
   return (
     <main className="w-full overflow-x-hidden">
-      <Navbar />
+      <LandingNavbar />
 
       {/* Hero */}
       <div className="section relative flex flex-col items-center justify-center gap-y-20">

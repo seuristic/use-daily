@@ -4,9 +4,9 @@ import { Link } from "react-router-dom"
 
 import { Button } from "@/components/ui/button"
 import { capitalize, cn } from "@/lib/utils"
-import { ModeToggle, useTheme } from "./theme"
+import { ModeToggle, useTheme } from "../theme"
 
-export const Navbar = () => {
+export const AppNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const { theme } = useTheme()
