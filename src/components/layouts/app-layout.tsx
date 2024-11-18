@@ -1,8 +1,8 @@
 import { ReactNode } from "react"
-import { SidebarProvider, SidebarTrigger } from "../ui/sidebar"
+import { SidebarProvider } from "../ui/sidebar"
 import { AppSidebar } from "../ui/sidebars"
 import { Head } from "../ui/seo"
-import { LandingNavbar } from "../navbars/landing-navbar"
+import { AppNavbar } from "../navbars/app-navbar"
 
 type AppSidebarProps = {
   children: ReactNode
@@ -15,10 +15,8 @@ export const AppLayout = ({ children, title }: AppSidebarProps) => {
       <Head title={title} />
       <AppSidebar />
       <main className="w-full">
-        <LandingNavbar />
-        <SidebarTrigger />
-        {children}
-        <div className="h-svh" />
+        <AppNavbar />
+        <div className="p-2">{children}</div>
       </main>
     </SidebarProvider>
   )

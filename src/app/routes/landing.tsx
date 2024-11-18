@@ -68,7 +68,7 @@ export const LandingRoute = () => {
                 <div className="h-2/5 w-full space-y-8 p-4 text-lg md:h-full md:w-2/5 md:p-8">
                   <div className="space-y-4">
                     <div className="w-fit rounded-xl border border-muted p-4 text-muted-foreground">
-                      <SquareCheckBig size={24} />
+                      <SquareCheckBig />
                     </div>
                     <h3 className="text-2xl font-bold">Task Tracker App</h3>
                     <p className="text-muted-foreground">
@@ -91,7 +91,7 @@ export const LandingRoute = () => {
                 <div className="h-2/5 w-full space-y-8 p-4 text-lg md:h-full md:w-2/5 md:p-8">
                   <div className="space-y-4">
                     <div className="w-fit rounded-xl border border-muted p-4 text-muted-foreground">
-                      <Timer size={24} />
+                      <Timer />
                     </div>
                     <h3 className="text-2xl font-bold">Pomodoro Timer</h3>
                     <p className="text-muted-foreground">
@@ -114,7 +114,7 @@ export const LandingRoute = () => {
                 <div className="h-2/5 w-full space-y-8 p-4 text-lg md:h-full md:w-2/5 md:p-8">
                   <div className="space-y-4">
                     <div className="w-fit rounded-xl border border-muted p-4 text-muted-foreground">
-                      <NotebookPen size={24} />
+                      <NotebookPen />
                     </div>
                     <h3 className="text-2xl font-bold">Keep Notes</h3>
                     <p className="text-muted-foreground">
@@ -137,7 +137,7 @@ export const LandingRoute = () => {
                 <div className="h-2/5 w-full space-y-8 p-4 text-lg md:h-full md:w-2/5 md:p-8">
                   <div className="space-y-4">
                     <div className="w-fit rounded-xl border border-muted p-4 text-muted-foreground">
-                      <List size={24} />
+                      <List />
                     </div>
                     <h3 className="text-2xl font-bold">Make List</h3>
                     <p className="text-muted-foreground">

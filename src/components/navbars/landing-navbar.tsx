@@ -12,8 +12,8 @@ export const LandingNavbar = () => {
   const { theme } = useTheme()
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-border bg-muted p-2">
-      <div className="">
+    <nav className="fixed top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md">
+      <div className="mx-auto max-w-screen-xl px-4 md:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="flex-shrink-0">
             <Link to="/" className="text-2xl font-bold text-foreground">
@@ -47,9 +47,9 @@ export const LandingNavbar = () => {
               aria-label="Toggle menu"
             >
               {isMenuOpen ? (
-                <X size={24} aria-hidden="true" />
+                <X aria-hidden="true" />
               ) : (
-                <Menu size={24} aria-hidden="true" />
+                <Menu aria-hidden="true" />
               )}
             </Button>
           </div>
