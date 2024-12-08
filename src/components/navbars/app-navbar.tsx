@@ -13,9 +13,7 @@ export const AppNavbar = () => {
       <div className="">
         <div className="flex items-center justify-between">
           <SidebarTrigger variant="outline" className="size-10" />
-          <div className="hidden space-x-4 md:flex md:flex-1 md:items-center md:justify-end">
-            <ModeToggle />
-          </div>
+          <ModeToggle />
         </div>
       </div>
     </nav>

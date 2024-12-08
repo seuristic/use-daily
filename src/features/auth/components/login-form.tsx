@@ -13,17 +13,18 @@ import { LoaderIcon } from "lucide-react"
 import { useState } from "react"
 
 type LoginFormProps = {
-  onSuccess: () => void
+  callback: () => void
 }
 
-export const LoginForm = ({ onSuccess }: LoginFormProps) => {
+export const LoginForm = ({ callback }: LoginFormProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const { setUser } = useAuth()
 
   const handleLogin = async () => {
     setIsLoading(true)
+
     try {
-      const response = await login(onSuccess)
+      const response = await login(callback)
       setUser(response.user)
     } catch (error: unknown) {
       console.error(error)

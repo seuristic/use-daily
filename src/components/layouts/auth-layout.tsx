@@ -5,9 +5,10 @@ import { useAuth } from "@/features/auth/hooks/useAuth"
 type LayoutProps = {
   children: React.ReactNode
   title: string
+  description?: string
 }
 
-export const AuthLayout = ({ children, title }: LayoutProps) => {
+export const AuthLayout = ({ children, title, description }: LayoutProps) => {
   const { user } = useAuth()
   const [searchParams] = useSearchParams()
   const redirectTo = searchParams.get("redirectTo")
@@ -18,7 +19,7 @@ export const AuthLayout = ({ children, title }: LayoutProps) => {
 
   return (
     <>
-      <Head title={title} />
+      <Head title={title} description={description} />
       <div className="flex min-h-screen items-center justify-center bg-background">
         {children}
       </div>

@@ -22,14 +22,6 @@ const createAppRouter = () =>
         // HydrateFallback: AuthSkeleton,
       },
       {
-        path: "/auth/signup",
-        lazy: async () => {
-          const { SignupRoute } = await import("./routes/auth/signup")
-          return { Component: SignupRoute }
-        },
-        // HydrateFallback: AuthSkeleton,
-      },
-      {
         path: "/dashboard",
         lazy: async () => {
           const { DashboardRoute } = await import("./routes/app/dashboard")

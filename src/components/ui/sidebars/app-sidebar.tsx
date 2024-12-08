@@ -1,18 +1,15 @@
 import {
-  Calendar,
   ChevronDownIcon,
-  ChevronUpIcon,
-  Home,
-  Inbox,
-  Search,
-  Settings,
-  User2Icon,
+  CalendarIcon,
+  HomeIcon,
+  InboxIcon,
+  SearchIcon,
+  SettingsIcon,
 } from "lucide-react"
 
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -29,32 +26,31 @@ import {
 } from "../dropdown-menu"
 import { Link } from "react-router-dom"
 
-// Menu items.
 const items = [
   {
     title: "Home",
     url: "#",
-    icon: Home,
+    icon: HomeIcon,
   },
   {
     title: "Inbox",
     url: "#",
-    icon: Inbox,
+    icon: InboxIcon,
   },
   {
     title: "Calendar",
     url: "#",
-    icon: Calendar,
+    icon: CalendarIcon,
   },
   {
     title: "Search",
     url: "#",
-    icon: Search,
+    icon: SearchIcon,
   },
   {
     title: "Settings",
     url: "#",
-    icon: Settings,
+    icon: SettingsIcon,
   },
 ]
 
@@ -116,34 +112,6 @@ export const AppSidebar = () => {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <SidebarMenuButton>
-                  <User2Icon /> Username
-                  <ChevronUpIcon className="ml-auto" />
-                </SidebarMenuButton>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                side="top"
-                className="w-[--radix-popper-anchor-width]"
-              >
-                <DropdownMenuItem>
-                  <span>Account</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <span>Billing</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <span>Sign out</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarFooter>
     </Sidebar>
   )
 }

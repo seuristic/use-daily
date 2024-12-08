@@ -7,13 +7,13 @@ import { Outlet, useNavigate } from "react-router-dom"
 export const AppRoute = () => {
   const navigate = useNavigate()
 
+  const handleLogout = () => logout(() => navigate("/auth/login"))
+
   return (
     <ProtectedRoute>
       <AppLayout title="App">
         <div>INDIVIDUAL APP</div>
-        <Button onClick={() => logout(() => navigate("/auth/login"))}>
-          Logout
-        </Button>
+        <Button onClick={handleLogout}>Logout</Button>
         <Outlet />
       </AppLayout>
     </ProtectedRoute>

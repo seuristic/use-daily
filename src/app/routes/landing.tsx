@@ -31,10 +31,7 @@ export const LandingRoute = () => {
         </div>
         <div className="flex items-center justify-center gap-x-4">
           <Button asChild>
-            <Link to="/auth/signup">Get started</Link>
-          </Button>
-          <Button asChild variant="outline">
-            <Link to="/auth/login">Existing user</Link>
+            <Link to="/auth/login?ref=home-cta">Get started</Link>
           </Button>
         </div>
         <div className="bg-gradient absolute left-1/2 top-1/2 -z-10 size-[256px] translate-x-full rounded-full bg-muted-foreground/50 blur-[1024px]" />

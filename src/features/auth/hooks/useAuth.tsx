@@ -12,12 +12,11 @@ export const useAuth = create<AuthType>()((set) => ({
   setUser: (user) => set(() => ({ user })),
 }))
 
-export const login = async (onSuccess?: () => void) => {
+export const login = async (callback?: () => void) => {
   try {
     const response = await signInWithPopup(auth, provider)
-    if (onSuccess) {
-      onSuccess()
-    }
+    console.log("Login successfully", response)
+    if (callback) callback()
     return response
   } catch (e) {
     console.error(e)
@@ -25,13 +24,11 @@ export const login = async (onSuccess?: () => void) => {
   }
 }
 
-export const logout = async (onSuccess?: () => void) => {
+export const logout = async (callback?: () => void) => {
   try {
     await signOut(auth)
     console.log("Logout successfully")
-    if (onSuccess) {
-      onSuccess()
-    }
+    if (callback) callback()
   } catch (e) {
     console.error(e)
     throw new Error("Error: unable to logout")

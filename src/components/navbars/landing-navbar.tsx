@@ -33,9 +33,6 @@ export const LandingNavbar = () => {
               <Button asChild variant="outline">
                 <Link to="/auth/login">Login</Link>
               </Button>
-              <Button asChild>
-                <Link to="/auth/signup">Sign Up</Link>
-              </Button>
               <ModeToggle />
             </div>
           </div>
@@ -69,9 +66,6 @@ export const LandingNavbar = () => {
           <div className="space-y-2 px-4 py-4">
             <Button asChild variant="outline" className="w-full justify-center">
               <Link to="/auth/login">Login</Link>
-            </Button>
-            <Button asChild className="w-full justify-center">
-              <Link to="/auth/signup">Sign Up</Link>
             </Button>
             <div className="flex items-center gap-x-4 text-sm md:hidden">
               <span className="text-muted-foreground">Change theme:</span>
