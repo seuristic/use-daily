@@ -1,4 +1,4 @@
-import { useAuth } from "@/features/auth/hooks/useAuth"
+import { useAuth } from "@/hooks/use-auth"
 import { LoaderCircleIcon } from "lucide-react"
 import { ReactNode } from "react"
 import { Navigate, useLocation } from "react-router-dom"

@@ -1,6 +1,6 @@
 import { Head } from "../ui/seo"
 import { Navigate, useSearchParams } from "react-router-dom"
-import { useAuth } from "@/features/auth/hooks/useAuth"
+import { useAuth } from "@/hooks/use-auth"
 
 type LayoutProps = {
   children: React.ReactNode

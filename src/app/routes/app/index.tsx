@@ -1,7 +1,7 @@
 import { AppLayout } from "@/components/layouts"
 import { Button } from "@/components/ui/button"
 import { ProtectedRoute } from "@/features/auth/components/protected-route"
-import { logout } from "@/features/auth/hooks/useAuth"
+import { logout } from "@/hooks/use-auth"
 import { Outlet, useNavigate } from "react-router-dom"
 
 export const AppRoute = () => {

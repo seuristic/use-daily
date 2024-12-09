@@ -1,4 +1,7 @@
-import { Button } from "@/components/ui/button"
+import { LoaderIcon } from 'lucide-react'
+import { useState } from 'react'
+
+import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
@@ -6,11 +9,9 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { GoogleIcon } from "@/components/ui/icons"
-import { login, useAuth } from "@/features/auth/hooks/useAuth"
-import { LoaderIcon } from "lucide-react"
-import { useState } from "react"
+} from '@/components/ui/card'
+import { GoogleIcon } from '@/components/ui/icons'
+import { login, useAuth } from '@/hooks/use-auth'
 
 type LoginFormProps = {
   callback: () => void
@@ -25,9 +26,9 @@ export const LoginForm = ({ callback }: LoginFormProps) => {
 
     try {
       const response = await login(callback)
-      setUser(response.user)
-    } catch (error: unknown) {
-      console.error(error)
+      setUser(response)
+    } catch (e) {
+      console.error('Error in handleLogin', e)
     } finally {
       setIsLoading(false)
     }
@@ -48,19 +49,19 @@ export const LoginForm = ({ callback }: LoginFormProps) => {
           ) : (
             <GoogleIcon className="mr-2 h-4 w-4" />
           )}
-          {isLoading ? "Signing In..." : "Sign in with Google"}
+          {isLoading ? 'Signing In...' : 'Sign in with Google'}
         </Button>
       </CardContent>
       <CardFooter className="flex justify-center">
         <p className="px-8 text-center text-sm text-muted-foreground">
-          By clicking continue, you agree to our{" "}
+          By clicking continue, you agree to our{' '}
           <a
             href="/terms"
             className="underline underline-offset-4 hover:text-primary"
           >
             Terms of Service
-          </a>{" "}
-          and{" "}
+          </a>{' '}
+          and{' '}
           <a
             href="/privacy"
             className="underline underline-offset-4 hover:text-primary"
