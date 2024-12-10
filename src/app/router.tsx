@@ -1,57 +1,61 @@
 // import { useMemo } from "react"
 // import { QueryClient, useQueryClient } from "react-query"
-import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 // import { AuthSkeleton } from "@/components/skeletons/auth"
 
 const createAppRouter = () =>
   createBrowserRouter(
     [
       {
-        path: "/",
+        path: '/',
         lazy: async () => {
-          const { LandingRoute } = await import("./routes/landing")
+          const { LandingRoute } = await import('./routes/landing')
           return { Component: LandingRoute }
         },
       },
       {
-        path: "/auth/login",
+        path: '/auth/login',
         lazy: async () => {
-          const { LoginRoute } = await import("./routes/auth/login")
+          const { LoginRoute } = await import('./routes/auth/login')
           return { Component: LoginRoute }
         },
         // HydrateFallback: AuthSkeleton,
       },
       {
-        path: "/dashboard",
+        path: '/dashboard',
         lazy: async () => {
-          const { DashboardRoute } = await import("./routes/app/dashboard")
+          const { DashboardRoute } = await import('./routes/app/dashboard')
           return { Component: DashboardRoute }
         },
       },
       {
-        path: "/app",
+        path: '/app',
         lazy: async () => {
-          const { AppRoute } = await import("./routes/app")
-          return { Component: AppRoute }
+          const { AppRoute } = await import('./routes/app')
+          return { Component: () => AppRoute() }
         },
         children: [
           {
-            path: "task",
+            path: 'tasks',
             element: <div>TASK APP</div>,
+          },
+          {
+            path: 'notes',
+            element: <div>NOTES APP</div>,
           },
         ],
       },
       {
-        path: "/apps",
+        path: '/apps',
         lazy: async () => {
-          const { AppListRoute } = await import("./routes/app/app-list")
+          const { AppListRoute } = await import('./routes/app/app-list')
           return { Component: AppListRoute }
         },
       },
       {
-        path: "*",
+        path: '*',
         lazy: async () => {
-          const { NotFoundRoute } = await import("./routes/not-found")
+          const { NotFoundRoute } = await import('./routes/not-found')
           return { Component: NotFoundRoute }
         },
       },

@@ -1,8 +1,9 @@
-import { ReactNode } from "react"
-import { SidebarProvider } from "../ui/sidebar"
-import { AppSidebar } from "../ui/sidebars"
-import { Head } from "../ui/seo"
-import { AppNavbar } from "../navbars/app-navbar"
+import { ReactNode } from 'react'
+import { SidebarProvider } from '../ui/sidebar'
+import { AppSidebar } from '../ui/sidebars'
+import { Head } from '../ui/seo'
+import { AppNavbar } from '../navbars/app-navbar'
+import { Navigate, useLocation } from 'react-router-dom'
 
 type AppSidebarProps = {
   children: ReactNode
@@ -10,6 +11,12 @@ type AppSidebarProps = {
 }
 
 export const AppLayout = ({ children, title }: AppSidebarProps) => {
+  const location = useLocation()
+
+  if (['/app', '/app/'].includes(location.pathname)) {
+    return <Navigate to="tasks" />
+  }
+
   return (
     <SidebarProvider>
       <Head title={title} />

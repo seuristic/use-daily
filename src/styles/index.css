@@ -9,6 +9,7 @@
     --card-foreground: 224 71.4% 4.1%;
     --popover: 0 0% 100%;
     --popover-foreground: 224 71.4% 4.1%;
+    --popover-selected: 0, 0%, 50%;
     --primary: 220.9 39.3% 11%;
     --primary-foreground: 210 20% 98%;
     --secondary: 220 14.3% 95.9%;
@@ -44,6 +45,7 @@
     --card-foreground: 210 20% 98%;
     --popover: 224 71.4% 4.1%;
     --popover-foreground: 210 20% 98%;
+    --popover-selected: 220.9 39.3% 11%;
     --primary: 210 20% 98%;
     --primary-foreground: 220.9 39.3% 11%;
     --secondary: 215 27.9% 16.9%;
@@ -79,18 +81,18 @@
     font-style: normal;
     font-weight: 100 900;
     font-display: swap;
-    src: url("/fonts/InterVariable.woff2") format("woff2");
+    src: url('/fonts/InterVariable.woff2') format('woff2');
   }
   @font-face {
     font-family: InterVariable;
     font-style: italic;
     font-weight: 100 900;
     font-display: swap;
-    src: url("/fonts/InterVariable-Italic.woff2") format("woff2");
+    src: url('/fonts/InterVariable-Italic.woff2') format('woff2');
   }
   :root {
     --font-inter: InterVariable;
-    --font-inter-italic: "InterVariable-Italic";
+    --font-inter-italic: 'InterVariable-Italic';
   }
   * {
     @apply border-border font-sans;
