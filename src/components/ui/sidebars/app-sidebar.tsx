@@ -1,4 +1,3 @@
-import { ComponentType } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import {
   ChevronDownIcon,
@@ -28,68 +27,53 @@ import {
   DropdownMenuTrigger,
 } from '../dropdown-menu'
 import { cn } from '@/lib/utils'
+import { SidebarApps } from '@/types/sidebar'
 
-type Apps = {
-  [key: string]: {
-    name: string
-    path: string
-  }
-}
-type AppItem = {
-  title: string
-  url: string
-  icon: ComponentType
-}
-type AppItems = {
-  [key: string]: AppItem[]
-}
+const appIdList = ['tasks', 'notes']
 
-const apps: Apps = {
+const apps: SidebarApps = {
   tasks: {
     name: 'Track Tasks',
     path: 'tasks',
+    items: [
+      {
+        title: 'Today',
+        path: '#',
+        icon: CalendarCheckIcon,
+      },
+      {
+        title: 'Tomorrow',
+        path: '#',
+        icon: CalendarPlusIcon,
+      },
+      {
+        title: 'Pending',
+        path: '#',
+        icon: CircleDashedIcon,
+      },
+      {
+        title: 'In-Progress',
+        path: '#',
+        icon: CircleDotDashedIcon,
+      },
+      {
+        title: 'Completed',
+        path: '#',
+        icon: CircleDotIcon,
+      },
+    ],
   },
   notes: {
     name: 'Quick Notes',
     path: 'notes',
+    items: [
+      {
+        title: 'Inbox',
+        path: '#',
+        icon: InboxIcon,
+      },
+    ],
   },
-}
-
-const appItems: AppItems = {
-  tasks: [
-    {
-      title: 'Today',
-      url: '#',
-      icon: CalendarCheckIcon,
-    },
-    {
-      title: 'Tomorrow',
-      url: '#',
-      icon: CalendarPlusIcon,
-    },
-    {
-      title: 'Pending',
-      url: '#',
-      icon: CircleDashedIcon,
-    },
-    {
-      title: 'In-Progress',
-      url: '#',
-      icon: CircleDotDashedIcon,
-    },
-    {
-      title: 'Completed',
-      url: '#',
-      icon: CircleDotIcon,
-    },
-  ],
-  notes: [
-    {
-      title: 'Inbox',
-      url: '#',
-      icon: InboxIcon,
-    },
-  ],
 }
 
 const extractAppPath = (pathname: string) => {
@@ -101,7 +85,7 @@ export const AppSidebar = () => {
   const location = useLocation()
   const navigate = useNavigate()
 
-  const currentApp = extractAppPath(location.pathname)
+  const appId = extractAppPath(location.pathname)
 
   const handleRoute = (id: string) => navigate(`/app/${id}`)
 
@@ -113,21 +97,21 @@ export const AppSidebar = () => {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton>
-                  {apps[currentApp].name}
+                  {apps[appId].name}
                   <ChevronDownIcon className="ml-auto" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-[--radix-popper-anchor-width]">
-                {Object.entries(apps).map(([id, app]) => (
+                {appIdList.map((id) => (
                   <DropdownMenuItem
                     key={id}
                     className={cn(
-                      currentApp === id &&
-                        'bg-popover-selected flex items-center gap-3',
+                      appId === id &&
+                        'flex items-center gap-3 bg-popover-selected',
                     )}
                     onClick={() => handleRoute(id)}
                   >
-                    <span>{app.name}</span>
+                    <span>{apps[id].name}</span>
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuContent>
@@ -138,10 +122,10 @@ export const AppSidebar = () => {
       <SidebarContent>
         <SidebarGroup>
           <SidebarMenu>
-            {appItems[currentApp].map((item) => (
+            {apps[appId].items.map((item) => (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton asChild>
-                  <Link to={item.url}>
+                  <Link to={item.path}>
                     <item.icon />
                     <span>{item.title}</span>
                   </Link>
@@ -154,10 +138,10 @@ export const AppSidebar = () => {
           <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {appItems[currentApp].map((item) => (
+              {apps[appId].items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                    <a href={item.path}>
                       <item.icon />
                       <span>{item.title}</span>
                     </a>
