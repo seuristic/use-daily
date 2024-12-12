@@ -1,10 +1,10 @@
-import { useState } from "react"
-import { Menu, X } from "lucide-react"
-import { Link } from "react-router-dom"
+import { useState } from 'react'
+import { Menu, X } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
-import { Button } from "@/components/ui/button"
-import { capitalize, cn } from "@/lib/utils"
-import { ModeToggle, useTheme } from "../theme"
+import { Button } from '@/components/ui/button'
+import { capitalize, cn } from '@/lib/utils'
+import { ModeToggle, useTheme } from '../theme'
 
 export const LandingNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -56,10 +56,10 @@ export const LandingNavbar = () => {
       {isMenuOpen && (
         <div className="bg-background md:hidden">
           <div className="space-y-2">
-            <Link to="#features" className={cn("link w-full")}>
+            <Link to="#features" className={cn('link w-full')}>
               Features
             </Link>
-            <Link to="#contribute" className={cn("link w-full")}>
+            <Link to="#contribute" className={cn('link w-full')}>
               Contribute
             </Link>
           </div>

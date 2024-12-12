@@ -3,7 +3,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { logout, useAuth } from '@/hooks/use-auth'
 import { UserIcon } from 'lucide-react'
@@ -15,9 +15,9 @@ export function UserDropdown() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="icon">
-          {user && user?.photo_url ? (
+          {user && user.photo_url ? (
             <img
-              src={user?.photo_url}
+              src={user.photo_url}
               alt="user photo"
               className="h-7 w-7 rounded-[calc(var(--radius)-6px)]"
             />

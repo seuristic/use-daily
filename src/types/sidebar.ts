@@ -7,9 +7,13 @@ export type SidebarAppItem = {
 }
 
 export type SidebarApp = {
-  name: string
+  title: string
   path: string
   items: SidebarAppItem[]
+  custom?: {
+    title: string
+    list: SidebarAppItem[]
+  }
 }
 
 export type SidebarApps = {

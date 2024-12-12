@@ -17,3 +17,8 @@ export type User = Omit<
   }>,
   'id'
 >
+
+export type UserContext = {
+  user: User | null | undefined
+  setUser: (user: User | null) => void
+}

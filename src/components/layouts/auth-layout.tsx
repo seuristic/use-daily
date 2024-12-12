@@ -1,6 +1,6 @@
-import { Head } from "../ui/seo"
-import { Navigate, useSearchParams } from "react-router-dom"
-import { useAuth } from "@/hooks/use-auth"
+import { Head } from '../ui/seo'
+import { Navigate, useSearchParams } from 'react-router-dom'
+import { useAuth } from '@/hooks/use-auth'
 
 type LayoutProps = {
   children: React.ReactNode
@@ -11,10 +11,10 @@ type LayoutProps = {
 export const AuthLayout = ({ children, title, description }: LayoutProps) => {
   const { user } = useAuth()
   const [searchParams] = useSearchParams()
-  const redirectTo = searchParams.get("redirectTo")
+  const redirectTo = searchParams.get('redirectTo')
 
   if (user) {
-    return <Navigate to={`${redirectTo ? redirectTo : "/app"}`} />
+    return <Navigate to={`${redirectTo ? redirectTo : '/app'}`} />
   }
 
   return (

@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(null)
       }
     },
-    [setUser],
+    [setUser]
   )
 
   useEffect(() => {

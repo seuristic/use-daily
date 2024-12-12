@@ -13,7 +13,7 @@ export const createUser = async (userCredential: UserCredential) => {
       photo_url: user.photoURL,
       uid: user.uid,
       created_at: Date.now(),
-      created_time: new Date().toUTCString(),
+      created_time: new Date().toUTCString()
     }
 
     await setDoc(doc(db, 'users', user.uid), userObj)

@@ -4,16 +4,11 @@ import { create } from 'zustand'
 import { auth, provider } from '@/configs/firebase'
 import { createUser } from '@/features/auth/api/create-user'
 import { getUser } from '@/features/auth/api/get-user'
-import { User } from '@/types/api'
+import { UserContext } from '@/types/api'
 
-type AuthType = {
-  user: User | null | undefined
-  setUser: (user: User | null) => void
-}
-
-export const useAuth = create<AuthType>()((set) => ({
+export const useAuth = create<UserContext>()((set) => ({
   user: undefined,
-  setUser: (user) => set(() => ({ user })),
+  setUser: (user) => set(() => ({ user }))
 }))
 
 export const login = async (callback?: () => void) => {

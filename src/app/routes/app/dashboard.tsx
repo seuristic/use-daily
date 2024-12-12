@@ -1,4 +1,4 @@
-import { ProtectedRoute } from "@/features/auth/components/protected-route"
+import { ProtectedRoute } from '@/features/auth/components/protected-route'
 
 export const DashboardRoute = () => {
   return (

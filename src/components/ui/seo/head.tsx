@@ -1,4 +1,4 @@
-import { Helmet, HelmetData } from "react-helmet-async"
+import { Helmet, HelmetData } from 'react-helmet-async'
 
 type HeadProps = {
   title?: string

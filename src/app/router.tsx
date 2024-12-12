@@ -11,14 +11,14 @@ const createAppRouter = () =>
         lazy: async () => {
           const { LandingRoute } = await import('./routes/landing')
           return { Component: LandingRoute }
-        },
+        }
       },
       {
         path: '/auth/login',
         lazy: async () => {
           const { LoginRoute } = await import('./routes/auth/login')
           return { Component: LoginRoute }
-        },
+        }
         // HydrateFallback: AuthSkeleton,
       },
       {
@@ -26,7 +26,7 @@ const createAppRouter = () =>
         lazy: async () => {
           const { DashboardRoute } = await import('./routes/app/dashboard')
           return { Component: DashboardRoute }
-        },
+        }
       },
       {
         path: '/app',
@@ -37,28 +37,28 @@ const createAppRouter = () =>
         children: [
           {
             path: 'tasks',
-            element: <div>TASK APP</div>,
+            element: <div>TASK APP</div>
           },
           {
             path: 'notes',
-            element: <div>NOTES APP</div>,
-          },
-        ],
+            element: <div>NOTES APP</div>
+          }
+        ]
       },
       {
         path: '/apps',
         lazy: async () => {
           const { AppListRoute } = await import('./routes/app/app-list')
           return { Component: AppListRoute }
-        },
+        }
       },
       {
         path: '*',
         lazy: async () => {
           const { NotFoundRoute } = await import('./routes/not-found')
           return { Component: NotFoundRoute }
-        },
-      },
+        }
+      }
     ],
     {
       future: {
@@ -66,9 +66,9 @@ const createAppRouter = () =>
         v7_fetcherPersist: true,
         v7_normalizeFormMethod: true,
         v7_partialHydration: true,
-        v7_skipActionErrorRevalidation: true,
-      },
-    },
+        v7_skipActionErrorRevalidation: true
+      }
+    }
   )
 
 export const AppRouter = () => {
@@ -79,7 +79,7 @@ export const AppRouter = () => {
     <RouterProvider
       router={router}
       future={{
-        v7_startTransition: true,
+        v7_startTransition: true
       }}
     />
   )

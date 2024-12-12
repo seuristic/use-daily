@@ -8,7 +8,7 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
+  CardTitle
 } from '@/components/ui/card'
 import { GoogleIcon } from '@/components/ui/icons'
 import { login, useAuth } from '@/hooks/use-auth'

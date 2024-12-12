@@ -1,16 +1,16 @@
-import { Link } from "react-router-dom"
+import { Link } from 'react-router-dom'
 import {
   ArrowUpRight,
   List,
   NotebookPen,
   SquareCheckBig,
-  Timer,
-} from "lucide-react"
+  Timer
+} from 'lucide-react'
 
-import { LandingNavbar } from "@/components/navbars/landing-navbar"
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { GithubIcon } from "@/components/ui/icons"
+import { LandingNavbar } from '@/components/navbars/landing-navbar'
+import { Button } from '@/components/ui/button'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { GithubIcon } from '@/components/ui/icons'
 
 export const LandingRoute = () => {
   return (
@@ -189,7 +189,7 @@ export const LandingRoute = () => {
               </p>
               <Button asChild className="w-full font-mono font-bold">
                 <Link to="#contribute">
-                  <GithubIcon size={20} className="mr-2" /> github/use-daily{" "}
+                  <GithubIcon size={20} className="mr-2" /> github/use-daily{' '}
                   <ArrowUpRight size={20} className="ml-2" />
                 </Link>
               </Button>
