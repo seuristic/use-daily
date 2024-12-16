@@ -1,6 +1,7 @@
 import { Head } from '../ui/seo'
-import { Navigate, useSearchParams } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import { useAuth } from '@/hooks/use-auth'
+import { PageLoader } from '../loaders/page-loader'
 
 type LayoutProps = {
   children: React.ReactNode
@@ -9,13 +10,11 @@ type LayoutProps = {
 }
 
 export const AuthLayout = ({ children, title, description }: LayoutProps) => {
-  const { user } = useAuth()
-  const [searchParams] = useSearchParams()
-  const redirectTo = searchParams.get('redirectTo')
+  const { user, loading } = useAuth()
 
-  if (user) {
-    return <Navigate to={`${redirectTo ? redirectTo : '/app'}`} />
-  }
+  if (loading) return <PageLoader />
+
+  if (user) return <Navigate to="/app" />
 
   return (
     <>

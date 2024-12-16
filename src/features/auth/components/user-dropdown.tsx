@@ -30,7 +30,7 @@ export function UserDropdown() {
       <DropdownMenuContent align="end">
         <DropdownMenuItem
           className="focus:bg-destructive focus:text-destructive-foreground"
-          onClick={() => logout()}
+          onClick={logout}
         >
           Logout
         </DropdownMenuItem>

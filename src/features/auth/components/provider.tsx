@@ -1,34 +1,31 @@
 import { onAuthStateChanged, User } from 'firebase/auth'
-import { ReactNode, useCallback, useEffect } from 'react'
+import { ReactNode, useEffect } from 'react'
 
 import { auth } from '@/configs/firebase'
 import { useAuth } from '@/hooks/use-auth'
 import { getUser } from '../api/get-user'
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const { setUser } = useAuth()
+  const { setUser, setLoading } = useAuth()
 
-  const handleUser = useCallback(
-    async (user: User | null) => {
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user: User | null) => {
       if (user) {
         try {
-          const userData = await getUser(user.uid)
-          setUser(userData)
+          const existingUser = await getUser(user.uid)
+          setUser(existingUser)
         } catch (e) {
-          console.error('Error in handleUser', e)
-          setUser(null)
+          console.error('Error in unsubscribe', e)
         }
       } else {
         setUser(null)
       }
-    },
-    [setUser]
-  )
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, handleUser)
+      setLoading(false)
+    })
+
     return () => unsubscribe()
-  }, [handleUser, setUser])
+  }, [setLoading, setUser])
 
   return children
 }

@@ -11,7 +11,7 @@ import {
   CardTitle
 } from '@/components/ui/card'
 import { GoogleIcon } from '@/components/ui/icons'
-import { login, useAuth } from '@/hooks/use-auth'
+import { login } from '@/hooks/use-auth'
 
 type LoginFormProps = {
   callback: () => void
@@ -19,14 +19,13 @@ type LoginFormProps = {
 
 export const LoginForm = ({ callback }: LoginFormProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const { setUser } = useAuth()
 
   const handleLogin = async () => {
     setIsLoading(true)
 
     try {
-      const response = await login(callback)
-      setUser(response)
+      await login()
+      if (callback) callback()
     } catch (e) {
       console.error('Error in handleLogin', e)
     } finally {

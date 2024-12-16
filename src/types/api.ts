@@ -19,6 +19,8 @@ export type User = Omit<
 >
 
 export type UserContext = {
-  user: User | null | undefined
+  user: User | null
+  loading: boolean
   setUser: (user: User | null) => void
+  setLoading: (loading: boolean) => void
 }

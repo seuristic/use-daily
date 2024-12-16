@@ -1,33 +1,22 @@
-import { useAuth } from '@/hooks/use-auth'
-import { LoaderCircleIcon } from 'lucide-react'
 import { ReactNode } from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
+
+import { useAuth } from '@/hooks/use-auth'
+import { PageLoader } from '@/components/loaders/page-loader'
 
 type ProtectedRouteProps = {
   children: ReactNode
 }
 
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+  const { user, loading } = useAuth()
   const location = useLocation()
 
-  const { user } = useAuth()
+  if (loading) return <PageLoader />
 
-  if (typeof user === 'undefined') {
-    return (
-      <div className="grid h-svh place-items-center">
-        <LoaderCircleIcon size={36} className="animate-spin" />
-      </div>
-    )
-  }
+  const path = `/auth/login?redirectTo=${encodeURIComponent(location.pathname)}`
 
-  if (!user) {
-    return (
-      <Navigate
-        to={`/auth/login?redirectTo=${encodeURIComponent(location.pathname)}`}
-        replace
-      />
-    )
-  }
+  if (!user) return <Navigate to={path} replace />
 
   return children
 }

@@ -1,13 +1,11 @@
-import { UserCredential } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
+import { User as AuthUser } from 'firebase/auth'
 
 import { db } from '@/configs/firebase'
-import { User } from '@/types/api'
 
-export const createUser = async (userCredential: UserCredential) => {
+export const createUser = async (user: AuthUser) => {
   try {
-    const user = userCredential.user
-    const userObj: User = {
+    const data = {
       display_name: user.displayName,
       email: user.email,
       photo_url: user.photoURL,
@@ -15,10 +13,8 @@ export const createUser = async (userCredential: UserCredential) => {
       created_at: Date.now(),
       created_time: new Date().toUTCString()
     }
-
-    await setDoc(doc(db, 'users', user.uid), userObj)
-
-    return userObj
+    await setDoc(doc(db, 'users', user.uid), data)
+    return data
   } catch (e) {
     console.error('Error in createUser', e)
     throw new Error('Error while creating new user')

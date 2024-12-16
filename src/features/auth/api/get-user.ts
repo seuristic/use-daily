@@ -5,12 +5,11 @@ import { User } from '@/types/api'
 
 export const getUser = async (uid: string): Promise<User | null> => {
   try {
-    const userRef = doc(db, 'users', uid)
-    const userSnap = await getDoc(userRef)
-
-    return userSnap.exists() ? (userSnap.data() as User) : null
+    const userSnap = await getDoc(doc(db, 'users', uid))
+    if (userSnap.exists()) return userSnap.data() as User
+    return null
   } catch (e) {
     console.error('Error in getUser', e)
-    throw new Error('Error while fetching user')
+    throw new Error('Error while fetching user details')
   }
 }
