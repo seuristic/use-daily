@@ -24,3 +24,13 @@ export type UserContext = {
   setUser: (user: User | null) => void
   setLoading: (loading: boolean) => void
 }
+
+export type TaskStatus = 'COMPLETED' | 'IN_PROGRESS' | 'PENDING'
+
+export type Task = Entity<{
+  title: string
+  description?: string
+  status: TaskStatus
+  uid: string
+  tags: string[]
+}>
