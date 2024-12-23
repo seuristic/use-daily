@@ -1,9 +1,9 @@
 import { ReactNode } from 'react'
 
-type AppListLayout = {
+type AppsLayoutProps = {
   children: ReactNode
 }
 
-export const AppListLayout = ({ children }: AppListLayout) => {
+export const AppsLayout = ({ children }: AppsLayoutProps) => {
   return <div>{children}</div>
 }

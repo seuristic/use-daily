@@ -39,27 +39,27 @@ const apps: SidebarApps = {
     items: [
       {
         title: 'Today',
-        path: '#',
+        path: '/app/tasks/today',
         icon: CalendarCheckIcon
       },
       {
         title: 'Tomorrow',
-        path: '#',
+        path: '/app/tasks/tomorrow',
         icon: CalendarPlusIcon
       },
       {
         title: 'Pending',
-        path: '#',
+        path: '/app/tasks/pending',
         icon: CircleDashedIcon
       },
       {
         title: 'In-Progress',
-        path: '#',
+        path: '/app/tasks/in-progress',
         icon: CircleDotDashedIcon
       },
       {
         title: 'Completed',
-        path: '#',
+        path: '/app/tasks/completed',
         icon: CircleDotIcon
       }
     ],

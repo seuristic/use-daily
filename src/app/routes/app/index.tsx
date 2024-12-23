@@ -1,13 +1,17 @@
 import { AppLayout } from '@/components/layouts'
-import { ProtectedRoute } from '@/features/auth/components/protected-route'
 import { Outlet } from 'react-router-dom'
+import { Navigate, useLocation } from 'react-router-dom'
 
 export const AppRoute = () => {
+  const location = useLocation()
+
+  if (['/app', '/app/'].includes(location.pathname)) {
+    return <Navigate to="tasks" />
+  }
+
   return (
-    <ProtectedRoute>
-      <AppLayout title="App">
-        <Outlet />
-      </AppLayout>
-    </ProtectedRoute>
+    <AppLayout title="App">
+      <Outlet />
+    </AppLayout>
   )
 }

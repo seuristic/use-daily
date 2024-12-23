@@ -29,7 +29,7 @@ export type TaskStatus = 'COMPLETED' | 'IN_PROGRESS' | 'PENDING'
 
 export type Task = Entity<{
   title: string
-  description?: string
+  description: string
   status: TaskStatus
   uid: string
   tags: string[]
