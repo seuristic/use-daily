@@ -14,7 +14,7 @@ export const AuthLayout = ({ children, title, description }: LayoutProps) => {
 
   if (loading) return <PageLoader />
 
-  if (user) return <Navigate to="/app" />
+  if (user) return <Navigate to="/app" replace />
 
   return (
     <>

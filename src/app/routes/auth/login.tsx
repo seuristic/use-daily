@@ -11,7 +11,9 @@ export const LoginRoute = () => {
 
   return (
     <AuthLayout title={'Login'}>
-      <LoginForm callback={() => navigate(redirectTo ?? '/apps')} />
+      <LoginForm
+        callback={() => navigate(redirectTo ?? '/apps', { replace: true })}
+      />
     </AuthLayout>
   )
 }

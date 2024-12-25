@@ -6,7 +6,7 @@ export const TaskRoute = () => {
   const location = useLocation()
 
   if (['/app/tasks', '/app/tasks/'].includes(location.pathname)) {
-    return <Navigate to="today" />
+    return <Navigate to="today" replace />
   }
 
   return (

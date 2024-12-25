@@ -34,37 +34,37 @@ const appIdList = ['tasks', 'notes']
 
 const apps: SidebarApps = {
   tasks: {
-    title: 'Track Tasks',
+    name: 'Track Tasks',
     path: 'tasks',
     items: [
       {
         title: 'Today',
-        path: '/app/tasks/today',
+        path: 'today',
         icon: CalendarCheckIcon
       },
       {
         title: 'Tomorrow',
-        path: '/app/tasks/tomorrow',
+        path: 'tomorrow',
         icon: CalendarPlusIcon
       },
       {
         title: 'Pending',
-        path: '/app/tasks/pending',
+        path: 'pending',
         icon: CircleDashedIcon
       },
       {
         title: 'In-Progress',
-        path: '/app/tasks/in-progress',
+        path: 'in-progress',
         icon: CircleDotDashedIcon
       },
       {
         title: 'Completed',
-        path: '/app/tasks/completed',
+        path: 'completed',
         icon: CircleDotIcon
       }
     ],
     custom: {
-      title: 'Tags',
+      name: 'Tags',
       list: [
         {
           title: 'Tag 1',
@@ -90,17 +90,17 @@ const apps: SidebarApps = {
     }
   },
   notes: {
-    title: 'Quick Notes',
+    name: 'Quick Notes',
     path: 'notes',
     items: [
       {
         title: 'Inbox',
-        path: '#',
+        path: 'inbox',
         icon: InboxIcon
       }
     ],
     custom: {
-      title: 'Lists',
+      name: 'Lists',
       list: [
         {
           title: 'List 1',
@@ -145,7 +145,7 @@ export const AppSidebar = () => {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton>
-                  {app.title}
+                  {app.name}
                   <ChevronDownIcon className="ml-auto" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
@@ -159,7 +159,7 @@ export const AppSidebar = () => {
                     )}
                     onClick={() => handleRoute(id)}
                   >
-                    <span>{apps[id].title}</span>
+                    <span>{apps[id].name}</span>
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuContent>
@@ -173,7 +173,7 @@ export const AppSidebar = () => {
             {app.items.map((item) => (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton asChild>
-                  <Link to={item.path}>
+                  <Link to={`/app/${appId}/${item.path}`} replace>
                     <item.icon />
                     <span>{item.title}</span>
                   </Link>
@@ -184,16 +184,16 @@ export const AppSidebar = () => {
         </SidebarGroup>
         {appCustom && (
           <SidebarGroup>
-            <SidebarGroupLabel>{appCustom.title}</SidebarGroupLabel>
+            <SidebarGroupLabel>{appCustom.name}</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 {appCustom.list.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild>
-                      <a href={item.path}>
+                      <Link to={`/app/${appId}/${item.path}`} replace>
                         <item.icon />
                         <span>{item.title}</span>
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}

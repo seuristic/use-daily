@@ -92,6 +92,15 @@ const createAppRouter = () =>
                   )
                   return { Component: CompletedTaskRoute }
                 }
+              },
+              {
+                path: ':id',
+                lazy: async () => {
+                  const { CustomTaskListRoute } = await import(
+                    './routes/app/tasks/custom-task-list'
+                  )
+                  return { Component: CustomTaskListRoute }
+                }
               }
             ]
           },
