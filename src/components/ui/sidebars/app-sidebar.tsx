@@ -68,23 +68,19 @@ const apps: SidebarApps = {
       list: [
         {
           title: 'Tag 1',
-          path: 'tag-1',
-          icon: HashIcon
+          path: 'tag-1'
         },
         {
           title: 'Tag 2',
-          path: 'tag-2',
-          icon: HashIcon
+          path: 'tag-2'
         },
         {
           title: 'Tag 3',
-          path: 'tag-3',
-          icon: HashIcon
+          path: 'tag-3'
         },
         {
           title: 'Tag 4',
-          path: 'tag-4',
-          icon: HashIcon
+          path: 'tag-4'
         }
       ]
     }
@@ -104,18 +100,15 @@ const apps: SidebarApps = {
       list: [
         {
           title: 'List 1',
-          path: 'list-1',
-          icon: HashIcon
+          path: 'list-1'
         },
         {
           title: 'List 2',
-          path: 'list-2',
-          icon: HashIcon
+          path: 'list-2'
         },
         {
           title: 'List 3',
-          path: 'list-3',
-          icon: HashIcon
+          path: 'list-3'
         }
       ]
     }
@@ -172,7 +165,14 @@ export const AppSidebar = () => {
           <SidebarMenu>
             {app.items.map((item) => (
               <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton asChild>
+                <SidebarMenuButton
+                  variant={
+                    location.pathname.includes(item.path)
+                      ? 'outline'
+                      : 'default'
+                  }
+                  asChild
+                >
                   <Link to={`/app/${appId}/${item.path}`} replace>
                     <item.icon />
                     <span>{item.title}</span>
@@ -189,9 +189,16 @@ export const AppSidebar = () => {
               <SidebarMenu>
                 {appCustom.list.map((item) => (
                   <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
-                      <Link to={`/app/${appId}/${item.path}`} replace>
-                        <item.icon />
+                    <SidebarMenuButton
+                      variant={
+                        location.pathname.includes(item.path)
+                          ? 'outline'
+                          : 'default'
+                      }
+                      asChild
+                    >
+                      <Link to={`/app/${appId}/custom/${item.path}`} replace>
+                        <HashIcon />
                         <span>{item.title}</span>
                       </Link>
                     </SidebarMenuButton>

@@ -5,17 +5,20 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import { logout, useAuth } from '@/hooks/use-auth'
-import { UserIcon } from 'lucide-react'
+import {
+  logout
+  // useAuth
+} from '@/hooks/use-auth'
+import { UserRoundIcon } from 'lucide-react'
 
 export function UserDropdown() {
-  const { user } = useAuth()
+  // const { user } = useAuth()
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="icon">
-          {user && user.photo_url ? (
+          {/* {user && user.photo_url ? (
             <img
               src={user.photo_url}
               alt="user photo"
@@ -23,7 +26,8 @@ export function UserDropdown() {
             />
           ) : (
             <UserIcon />
-          )}
+          )} */}
+          <UserRoundIcon />
           <span className="sr-only">User Options</span>
         </Button>
       </DropdownMenuTrigger>
