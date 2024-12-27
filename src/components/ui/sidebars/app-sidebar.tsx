@@ -29,6 +29,7 @@ import {
 } from '../dropdown-menu'
 import { cn } from '@/lib/utils'
 import { SidebarApps } from '@/types/sidebar'
+import { TaskTagDialog } from '@/features/tasks/components/task-tag-dialog'
 
 const appIdList = ['tasks', 'notes']
 
@@ -66,22 +67,22 @@ const apps: SidebarApps = {
     custom: {
       name: 'Tags',
       list: [
-        {
-          title: 'Tag 1',
-          path: 'tag-1'
-        },
-        {
-          title: 'Tag 2',
-          path: 'tag-2'
-        },
-        {
-          title: 'Tag 3',
-          path: 'tag-3'
-        },
-        {
-          title: 'Tag 4',
-          path: 'tag-4'
-        }
+        // {
+        //   title: 'Tag 1',
+        //   path: 'tag-1'
+        // },
+        // {
+        //   title: 'Tag 2',
+        //   path: 'tag-2'
+        // },
+        // {
+        //   title: 'Tag 3',
+        //   path: 'tag-3'
+        // },
+        // {
+        //   title: 'Tag 4',
+        //   path: 'tag-4'
+        // }
       ]
     }
   },
@@ -184,26 +185,37 @@ export const AppSidebar = () => {
         </SidebarGroup>
         {appCustom && (
           <SidebarGroup>
-            <SidebarGroupLabel>{appCustom.name}</SidebarGroupLabel>
+            <SidebarGroupLabel className="justify-between">
+              {appCustom.name}
+              <TaskTagDialog />
+            </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {appCustom.list.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton
-                      variant={
-                        location.pathname.includes(item.path)
-                          ? 'outline'
-                          : 'default'
-                      }
-                      asChild
-                    >
-                      <Link to={`/app/${appId}/custom/${item.path}`} replace>
-                        <HashIcon />
-                        <span>{item.title}</span>
-                      </Link>
-                    </SidebarMenuButton>
+                {appCustom.list.length > 0 ? (
+                  appCustom.list.map((item) => (
+                    <SidebarMenuItem key={item.title}>
+                      <SidebarMenuButton
+                        variant={
+                          location.pathname.includes(item.path)
+                            ? 'outline'
+                            : 'default'
+                        }
+                        asChild
+                      >
+                        <Link to={`/app/${appId}/custom/${item.path}`} replace>
+                          <HashIcon />
+                          <span>{item.title}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))
+                ) : (
+                  <SidebarMenuItem>
+                    <span className="flex h-20 w-full items-center justify-center text-xs text-muted-foreground">
+                      Empty
+                    </span>
                   </SidebarMenuItem>
-                ))}
+                )}
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>

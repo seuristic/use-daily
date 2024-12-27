@@ -20,7 +20,7 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
-import { CrossIcon, XIcon } from 'lucide-react'
+import { XIcon } from 'lucide-react'
 import React from 'react'
 
 export const TaskDialog = () => {
@@ -35,7 +35,7 @@ export const TaskDialog = () => {
         <DialogHeader>
           <DialogTitle>New Task</DialogTitle>
           <DialogDescription>
-            Create a new task by filling out the form below.
+            Create a new task by filling out the form below
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-2">
@@ -74,9 +74,9 @@ export const TaskDialog = () => {
                   </Badge>
                 ))}
             </div>
-            {/* <div className="flex h-[50px] w-full items-center justify-center text-sm text-muted-foreground">
+            <div className="flex h-[50px] w-full items-center justify-center text-sm text-muted-foreground">
               No tags selected
-            </div> */}
+            </div>
             <Select>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select tags" />
