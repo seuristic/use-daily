@@ -1,20 +1,20 @@
-import { doc, setDoc } from 'firebase/firestore'
+import { doc, setDoc, Timestamp } from 'firebase/firestore'
 import { User as AuthUser } from 'firebase/auth'
 
 import { db } from '@/configs/firebase'
 import { User } from '@/types/api'
 
 export const createUser = async (user: AuthUser): Promise<User> => {
-  const data = {
+  const docData = {
     display_name: user.displayName,
     email: user.email,
     photo_url: user.photoURL,
     uid: user.uid,
-    created_at: Date.now(),
-    created_time: new Date().toUTCString()
+    created_at: Timestamp.now().toDate().toISOString(),
+    created_ts: Timestamp.now().seconds
   }
 
-  await setDoc(doc(db, 'users', user.uid), data)
+  await setDoc(doc(db, 'users', user.uid), docData)
 
-  return data
+  return docData
 }
