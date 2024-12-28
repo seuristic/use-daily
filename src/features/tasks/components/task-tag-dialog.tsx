@@ -1,6 +1,5 @@
 import React from 'react'
 import { LoaderIcon, PlusIcon } from 'lucide-react'
-import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -22,30 +21,29 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/form'
-
-const FormSchema = z.object({
-  name: z.string().nonempty({
-    message: "Tag name can't be empty"
-  })
-})
+import {
+  createTaskTag,
+  CreateTaskTagForm,
+  CreateTaskTagSchema
+} from '../api/create-task-tag'
 
 export const TaskTagDialog = () => {
   const [open, setOpen] = React.useState(false)
   const [isSubmitting, setIsSubmitting] = React.useState(false)
 
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-    defaultValues: {
-      name: ''
-    }
+  const form = useForm<CreateTaskTagForm>({
+    resolver: zodResolver(CreateTaskTagSchema),
+    defaultValues: { name: '' }
   })
 
-  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+  const onSubmit = async (data: CreateTaskTagForm) => {
     setIsSubmitting(true)
 
     try {
-      console.log('form validated data', data)
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      const tag = await createTaskTag({ data })
+
+      console.log('CREATED TASK TAG', tag)
+
       form.reset()
       setOpen(false)
     } catch (error) {

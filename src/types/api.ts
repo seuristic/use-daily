@@ -1,7 +1,7 @@
 export type BaseEntity = {
   id: string
-  created_at: number
-  created_time: string
+  created_at: string
+  created_ts: number
 }
 
 export type Entity<T> = {
@@ -33,4 +33,9 @@ export type Task = Entity<{
   status: TaskStatus
   uid: string
   tags: string[]
+}>
+
+export type TaskTag = Entity<{
+  name: string
+  uid: string
 }>

@@ -1,42 +1,40 @@
-import { addDoc, collection, doc, setDoc } from 'firebase/firestore'
+import { addDoc, collection, setDoc, Timestamp } from 'firebase/firestore'
 
 import { auth, db } from '@/configs/firebase'
-import { datetimeSchema, timestampSchema } from '@/lib/schema'
 import { Task, TaskStatus } from '@/types/api'
 import { z } from 'zod'
 
 export const TASKS_COLLECTION = 'tasks'
 
-export const createTaskInputSchema = z.object({
+export const CreateTaskSchema = z.object({
   title: z.string(),
   description: z.string(),
   tags: z.array(z.string())
 })
 
-export type CreateTaskInput = z.infer<typeof createTaskInputSchema>
+export type CreateTaskForm = z.infer<typeof CreateTaskSchema>
 
 export const createTask = async ({
   data
 }: {
-  data: CreateTaskInput
+  data: CreateTaskForm
 }): Promise<Task> => {
   if (!auth.currentUser) {
     throw new Error('User not logged in')
   }
 
-  const validatedData = createTaskInputSchema.parse(data)
-
-  const taskData = {
-    ...validatedData,
-    created_at: timestampSchema.parse(new Date()),
-    created_time: datetimeSchema.parse(new Date()),
+  const docData = {
+    ...data,
+    created_at: Timestamp.now().toDate().toString(),
+    created_ts: Timestamp.now().seconds,
     status: 'PENDING' as TaskStatus,
     uid: auth.currentUser.uid
   }
 
-  const { id } = await addDoc(collection(db, TASKS_COLLECTION), taskData)
+  const docRef = await addDoc(collection(db, TASKS_COLLECTION), docData)
+  const docId = docRef.id
 
-  await setDoc(doc(db, TASKS_COLLECTION, id), { id }, { merge: true })
+  await setDoc(docRef, { id: docId }, { merge: true })
 
-  return { ...taskData, id }
+  return { ...docData, id: docId }
 }
