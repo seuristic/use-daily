@@ -2,11 +2,11 @@ import { onAuthStateChanged, User } from 'firebase/auth'
 import { ReactNode, useEffect } from 'react'
 
 import { auth } from '@/configs/firebase'
-import { useAuth } from '@/hooks/use-auth'
+import { useAuthStore } from '@/stores/use-auth-store'
 import { getUser } from '../api/get-user'
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const { setUser, setLoading } = useAuth()
+  const { setUser, setLoading } = useAuthStore()
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user: User | null) => {

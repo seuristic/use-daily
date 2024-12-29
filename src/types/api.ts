@@ -1,16 +1,23 @@
+export type Flatten<T> = {
+  [K in keyof T]: T[K]
+}
+
 export type BaseEntity = {
   id: string
   created_at: string
-  created_ts: number
+  created_timestamp: number
 }
 
-export type Entity<T> = {
-  [K in keyof T]: T[K]
-} & BaseEntity
+export type Entity<T> = Flatten<T & BaseEntity>
+
+export type UserEntity<T> = Flatten<
+  Entity<T> & {
+    uid: string
+  }
+>
 
 export type User = Omit<
-  Entity<{
-    uid: string
+  UserEntity<{
     display_name: string | null
     email: string | null
     photo_url: string | null
@@ -18,24 +25,26 @@ export type User = Omit<
   'id'
 >
 
-export type UserContext = {
-  user: User | null
-  loading: boolean
-  setUser: (user: User | null) => void
-  setLoading: (loading: boolean) => void
-}
+export const TASK_STATUS = {
+  COMPLETED: 'COMPLETED',
+  IN_PROGRESS: 'IN_PROGRESS',
+  PENDING: 'PENDING'
+} as const
 
-export type TaskStatus = 'COMPLETED' | 'IN_PROGRESS' | 'PENDING'
+export type TaskStatus = keyof typeof TASK_STATUS
 
-export type Task = Entity<{
+export type Task = UserEntity<{
   title: string
   description: string
   status: TaskStatus
-  uid: string
   tags: string[]
 }>
 
-export type TaskTag = Entity<{
+export type TaskTag = UserEntity<{
   name: string
-  uid: string
 }>
+
+export type Apps = {
+  // tasks: Task[]
+  task_tags: TaskTag[]
+}

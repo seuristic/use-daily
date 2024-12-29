@@ -10,7 +10,7 @@ export type SidebarApp = {
   name: string
   path: string
   items: SidebarAppItem[]
-  custom?: {
+  custom: {
     name: string
     list: Omit<SidebarAppItem, 'icon'>[]
   }

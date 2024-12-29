@@ -1,6 +1,7 @@
 import { auth, db } from '@/configs/firebase'
+import { withMetadata } from '@/lib/utils'
 import { TaskTag } from '@/types/api'
-import { addDoc, collection, setDoc, Timestamp } from 'firebase/firestore'
+import { addDoc, collection, setDoc } from 'firebase/firestore'
 import { z } from 'zod'
 
 export const TASK_TAGS_COLLECTION = 'task_tags'
@@ -22,12 +23,7 @@ export const createTaskTag = async ({
     throw new Error('User not logged in')
   }
 
-  const docData = {
-    ...data,
-    created_at: Timestamp.now().toDate().toISOString(),
-    created_ts: Timestamp.now().seconds,
-    uid: auth.currentUser.uid
-  }
+  const docData = withMetadata(auth.currentUser, data)
 
   const docRef = await addDoc(collection(db, TASK_TAGS_COLLECTION), docData)
   const docId = docRef.id

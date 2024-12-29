@@ -5,15 +5,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import {
-  logout
-  // useAuth
-} from '@/hooks/use-auth'
+import { logout } from '@/features/auth/api/auth'
 import { UserRoundIcon } from 'lucide-react'
 
 export function UserDropdown() {
-  // const { user } = useAuth()
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

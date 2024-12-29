@@ -11,7 +11,7 @@ export const createUser = async (user: AuthUser): Promise<User> => {
     photo_url: user.photoURL,
     uid: user.uid,
     created_at: Timestamp.now().toDate().toISOString(),
-    created_ts: Timestamp.now().seconds
+    created_timestamp: Timestamp.now().seconds
   }
 
   await setDoc(doc(db, 'users', user.uid), docData)

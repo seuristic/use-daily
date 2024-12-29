@@ -11,7 +11,7 @@ import {
   CardTitle
 } from '@/components/ui/card'
 import { GoogleIcon } from '@/components/ui/icons'
-import { login } from '@/hooks/use-auth'
+import { login } from '../api/auth'
 
 type LoginFormProps = {
   callback: () => void

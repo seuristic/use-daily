@@ -1,17 +1,8 @@
 import { signInWithPopup, signOut } from 'firebase/auth'
-import { create } from 'zustand'
 
 import { auth, provider } from '@/configs/firebase'
 import { createUser } from '@/features/auth/api/create-user'
 import { getUser } from '@/features/auth/api/get-user'
-import { UserContext } from '@/types/api'
-
-export const useAuth = create<UserContext>()((set) => ({
-  user: null,
-  loading: true,
-  setLoading: (loading) => set(() => ({ loading })),
-  setUser: (user) => set(() => ({ user }))
-}))
 
 export const login = async () => {
   try {

@@ -30,10 +30,10 @@ import {
 import { cn } from '@/lib/utils'
 import { SidebarApps } from '@/types/sidebar'
 import { TaskTagDialog } from '@/features/tasks/components/task-tag-dialog'
+import React from 'react'
+import { useAppStore } from '@/stores/use-app-store'
 
-const appIdList = ['tasks', 'notes']
-
-const apps: SidebarApps = {
+const defaultApps = {
   tasks: {
     name: 'Track Tasks',
     path: 'tasks',
@@ -66,24 +66,7 @@ const apps: SidebarApps = {
     ],
     custom: {
       name: 'Tags',
-      list: [
-        // {
-        //   title: 'Tag 1',
-        //   path: 'tag-1'
-        // },
-        // {
-        //   title: 'Tag 2',
-        //   path: 'tag-2'
-        // },
-        // {
-        //   title: 'Tag 3',
-        //   path: 'tag-3'
-        // },
-        // {
-        //   title: 'Tag 4',
-        //   path: 'tag-4'
-        // }
-      ]
+      list: []
     }
   },
   notes: {
@@ -98,23 +81,10 @@ const apps: SidebarApps = {
     ],
     custom: {
       name: 'Lists',
-      list: [
-        {
-          title: 'List 1',
-          path: 'list-1'
-        },
-        {
-          title: 'List 2',
-          path: 'list-2'
-        },
-        {
-          title: 'List 3',
-          path: 'list-3'
-        }
-      ]
+      list: []
     }
   }
-}
+} as SidebarApps
 
 const extractAppPath = (pathname: string) => {
   const paths = pathname.split('/').filter(Boolean)
@@ -125,11 +95,34 @@ export const AppSidebar = () => {
   const location = useLocation()
   const navigate = useNavigate()
 
+  const { apps } = useAppStore()
+
+  const [sidebarApps, setSidebarApps] = React.useState<SidebarApps>(defaultApps)
+
   const appId = extractAppPath(location.pathname)
-  const app = apps[appId]
-  const appCustom = 'custom' in app && app.custom ? app.custom : null
+  const app = sidebarApps[appId]
 
   const handleRoute = (id: string) => navigate(`/app/${id}`)
+
+  React.useEffect(() => {
+    if (apps) {
+      setSidebarApps((prev) => ({
+        ...prev,
+        tasks: {
+          ...prev.tasks,
+          custom: {
+            ...prev.tasks.custom,
+            list: apps.task_tags.map((tag) => ({
+              title: tag.name,
+              path: tag.id
+            }))
+          }
+        }
+      }))
+    }
+  }, [apps])
+
+  console.log('sidebar task tags', apps)
 
   return (
     <Sidebar variant="floating">
@@ -144,7 +137,7 @@ export const AppSidebar = () => {
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-[--radix-popper-anchor-width]">
-                {appIdList.map((id) => (
+                {Object.keys(sidebarApps).map((id) => (
                   <DropdownMenuItem
                     key={id}
                     className={cn(
@@ -153,7 +146,7 @@ export const AppSidebar = () => {
                     )}
                     onClick={() => handleRoute(id)}
                   >
-                    <span>{apps[id].name}</span>
+                    <span>{sidebarApps[id].name}</span>
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuContent>
@@ -183,16 +176,16 @@ export const AppSidebar = () => {
             ))}
           </SidebarMenu>
         </SidebarGroup>
-        {appCustom && (
+        {app.custom && (
           <SidebarGroup>
             <SidebarGroupLabel className="justify-between">
-              {appCustom.name}
+              {app.custom.name}
               <TaskTagDialog />
             </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {appCustom.list.length > 0 ? (
-                  appCustom.list.map((item) => (
+                {app.custom.list.length > 0 ? (
+                  app.custom.list.map((item) => (
                     <SidebarMenuItem key={item.title}>
                       <SidebarMenuButton
                         variant={

@@ -1,6 +1,6 @@
 import { AppsLayout } from '@/components/layouts/app-list-layout'
 import { Button } from '@/components/ui/button'
-import { logout } from '@/hooks/use-auth'
+import { logout } from '@/features/auth/api/auth'
 
 export const AppsRoute = () => {
   return (

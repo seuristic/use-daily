@@ -1,6 +1,6 @@
 import { Head } from '../ui/seo'
 import { Navigate } from 'react-router-dom'
-import { useAuth } from '@/hooks/use-auth'
+import { useAuthStore } from '@/stores/use-auth-store'
 import { PageLoader } from '../loaders/page-loader'
 
 type LayoutProps = {
@@ -10,7 +10,7 @@ type LayoutProps = {
 }
 
 export const AuthLayout = ({ children, title, description }: LayoutProps) => {
-  const { user, loading } = useAuth()
+  const { user, loading } = useAuthStore()
 
   if (loading) return <PageLoader />
 
