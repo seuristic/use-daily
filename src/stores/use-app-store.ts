@@ -2,15 +2,21 @@ import { Apps } from '@/types/api'
 import { create } from 'zustand'
 
 type State = {
-  apps: Apps | null
+  apps: Apps
+  loading: boolean
 }
 
 type Action = {
   setApps: (apps: Apps | null) => void
+  setLoading: (loading: boolean) => void
 }
 
 export const useAppStore = create<State & Action>()((set) => ({
-  apps: null,
+  apps: { task_tags: [] },
+  loading: true,
   setApps: (nextApps) =>
-    set((apps) => (apps ? { ...apps, ...nextApps } : { ...nextApps }))
+    set((state) => ({
+      apps: { ...state.apps, ...nextApps }
+    })),
+  setLoading: (loading) => set(() => ({ loading }))
 }))

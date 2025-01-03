@@ -26,10 +26,13 @@ import {
   CreateTaskTagForm,
   CreateTaskTagSchema
 } from '../api/create-task-tag'
+import { useAppStore } from '@/stores/use-app-store'
 
 export const TaskTagDialog = () => {
   const [open, setOpen] = React.useState(false)
   const [isSubmitting, setIsSubmitting] = React.useState(false)
+
+  const { apps, setApps } = useAppStore()
 
   const form = useForm<CreateTaskTagForm>({
     resolver: zodResolver(CreateTaskTagSchema),
@@ -42,7 +45,7 @@ export const TaskTagDialog = () => {
     try {
       const tag = await createTaskTag({ data })
 
-      console.log('CREATED TASK TAG', tag)
+      setApps({ task_tags: [...apps.task_tags, tag] })
 
       form.reset()
       setOpen(false)

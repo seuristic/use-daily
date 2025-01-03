@@ -7,7 +7,8 @@ import {
   CircleDashedIcon,
   CircleDotDashedIcon,
   CircleDotIcon,
-  HashIcon
+  HashIcon,
+  Loader2Icon
 } from 'lucide-react'
 
 import {
@@ -91,38 +92,38 @@ const extractAppPath = (pathname: string) => {
   return paths.length > 1 ? paths[1] : ''
 }
 
+const customItemsMap = {
+  tasks: 'task_tags'
+} as const
+
 export const AppSidebar = () => {
   const location = useLocation()
   const navigate = useNavigate()
 
-  const { apps } = useAppStore()
+  const { apps, loading } = useAppStore()
 
   const [sidebarApps, setSidebarApps] = React.useState<SidebarApps>(defaultApps)
 
-  const appId = extractAppPath(location.pathname)
+  const appId = extractAppPath(location.pathname) as keyof typeof customItemsMap
   const app = sidebarApps[appId]
 
   const handleRoute = (id: string) => navigate(`/app/${id}`)
 
   React.useEffect(() => {
-    if (apps) {
+    if (appId.length > 0 && apps) {
+      const customItems = apps[customItemsMap[appId]]
       setSidebarApps((prev) => ({
         ...prev,
         tasks: {
           ...prev.tasks,
           custom: {
             ...prev.tasks.custom,
-            list: apps.task_tags.map((tag) => ({
-              title: tag.name,
-              path: tag.id
-            }))
+            list: customItems.map(({ name, id }) => ({ title: name, path: id }))
           }
         }
       }))
     }
-  }, [apps])
-
-  console.log('sidebar task tags', apps)
+  }, [apps, appId])
 
   return (
     <Sidebar variant="floating">
@@ -184,7 +185,13 @@ export const AppSidebar = () => {
             </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {app.custom.list.length > 0 ? (
+                {loading ? (
+                  <SidebarMenuItem>
+                    <span className="flex h-20 w-full items-center justify-center text-xs text-muted-foreground">
+                      <Loader2Icon className="animate-spin" />
+                    </span>
+                  </SidebarMenuItem>
+                ) : app.custom.list.length > 0 ? (
                   app.custom.list.map((item) => (
                     <SidebarMenuItem key={item.title}>
                       <SidebarMenuButton

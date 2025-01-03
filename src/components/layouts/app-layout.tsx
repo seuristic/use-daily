@@ -13,19 +13,17 @@ type AppLayoutProps = {
 }
 
 export const AppLayout = ({ children, title }: AppLayoutProps) => {
-  const { setApps } = useAppStore()
+  const { setApps, setLoading } = useAppStore()
 
   React.useEffect(() => {
     const fetchTaskTags = async () => {
       const data = await getTaskTags()
-
-      console.log('task tags data', data)
-
       setApps({ task_tags: data })
+      setLoading(false)
     }
 
     fetchTaskTags()
-  }, [setApps])
+  }, [setApps, setLoading])
 
   return (
     <SidebarProvider>
