@@ -27,6 +27,7 @@ import {
   CreateTaskTagSchema
 } from '../api/create-task-tag'
 import { useAppStore } from '@/stores/use-app-store'
+import { SidebarGroupAction } from '@/components/ui/sidebar'
 
 export const TaskTagDialog = () => {
   const [open, setOpen] = React.useState(false)
@@ -59,9 +60,10 @@ export const TaskTagDialog = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost" size="icon_sm">
-          <PlusIcon size={16} />
-        </Button>
+        <SidebarGroupAction title="Add tags">
+          <PlusIcon />
+          <span className="sr-only">Add tags</span>
+        </SidebarGroupAction>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <Form {...form}>

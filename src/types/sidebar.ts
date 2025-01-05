@@ -1,6 +1,7 @@
 import { ComponentType } from 'react'
 
 export type SidebarAppItem = {
+  id: string
   title: string
   path: string
   icon: ComponentType

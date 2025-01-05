@@ -33,6 +33,7 @@ import { SidebarApps } from '@/types/sidebar'
 import { TaskTagDialog } from '@/features/tasks/components/task-tag-dialog'
 import React from 'react'
 import { useAppStore } from '@/stores/use-app-store'
+import { SidebarCustomDropdown } from './custom-dropdown'
 
 const defaultApps = {
   tasks: {
@@ -40,26 +41,31 @@ const defaultApps = {
     path: 'tasks',
     items: [
       {
+        id: 'task-today',
         title: 'Today',
         path: 'today',
         icon: CalendarCheckIcon
       },
       {
+        id: 'task-tomorrow',
         title: 'Tomorrow',
         path: 'tomorrow',
         icon: CalendarPlusIcon
       },
       {
+        id: 'task-upcoming',
         title: 'Pending',
         path: 'pending',
         icon: CircleDashedIcon
       },
       {
+        id: 'task-in-progress',
         title: 'In-Progress',
         path: 'in-progress',
         icon: CircleDotDashedIcon
       },
       {
+        id: 'task-completed',
         title: 'Completed',
         path: 'completed',
         icon: CircleDotIcon
@@ -75,6 +81,7 @@ const defaultApps = {
     path: 'notes',
     items: [
       {
+        id: 'notes-all',
         title: 'Inbox',
         path: 'inbox',
         icon: InboxIcon
@@ -118,7 +125,11 @@ export const AppSidebar = () => {
           ...prev.tasks,
           custom: {
             ...prev.tasks.custom,
-            list: customItems.map(({ name, id }) => ({ title: name, path: id }))
+            list: customItems.map(({ name, id }) => ({
+              id,
+              title: name,
+              path: id
+            }))
           }
         }
       }))
@@ -155,17 +166,15 @@ export const AppSidebar = () => {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
+
+      {/* Routes */}
       <SidebarContent>
         <SidebarGroup>
           <SidebarMenu>
             {app.items.map((item) => (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton
-                  variant={
-                    location.pathname.includes(item.path)
-                      ? 'outline'
-                      : 'default'
-                  }
+                  isActive={location.pathname.includes(item.path)}
                   asChild
                 >
                   <Link to={`/app/${appId}/${item.path}`} replace>
@@ -177,6 +186,8 @@ export const AppSidebar = () => {
             ))}
           </SidebarMenu>
         </SidebarGroup>
+
+        {/* Custom Routes */}
         {app.custom && (
           <SidebarGroup>
             <SidebarGroupLabel className="justify-between">
@@ -192,28 +203,31 @@ export const AppSidebar = () => {
                     </span>
                   </SidebarMenuItem>
                 ) : app.custom.list.length > 0 ? (
-                  app.custom.list.map((item) => (
-                    <SidebarMenuItem key={item.title}>
-                      <SidebarMenuButton
-                        variant={
-                          location.pathname.includes(item.path)
-                            ? 'outline'
-                            : 'default'
-                        }
-                        asChild
-                      >
-                        <Link to={`/app/${appId}/custom/${item.path}`} replace>
-                          <HashIcon />
-                          <span>{item.title}</span>
-                        </Link>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  ))
+                  app.custom.list.map((item) => {
+                    const customItemPath = `/app/${appId}/custom/${item.path}`
+                    return (
+                      <SidebarMenuItem key={item.id}>
+                        <SidebarMenuButton
+                          tooltip={
+                            item.title.length > 20 ? item.title : undefined
+                          }
+                          isActive={location.pathname.includes(item.path)}
+                          asChild
+                        >
+                          <Link to={customItemPath} replace>
+                            <HashIcon />
+                            <span>{item.title}</span>
+                          </Link>
+                        </SidebarMenuButton>
+                        <SidebarCustomDropdown />
+                      </SidebarMenuItem>
+                    )
+                  })
                 ) : (
                   <SidebarMenuItem>
-                    <span className="flex h-20 w-full items-center justify-center text-xs text-muted-foreground">
+                    <div className="flex h-20 w-full items-center justify-center text-xs text-muted-foreground">
                       Empty
-                    </span>
+                    </div>
                   </SidebarMenuItem>
                 )}
               </SidebarMenu>

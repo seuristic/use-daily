@@ -41,6 +41,7 @@ export type Task = UserEntity<{
 }>
 
 export type TaskTag = UserEntity<{
+  id: string
   name: string
 }>
 
