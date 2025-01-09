@@ -24,3 +24,14 @@ export const withMetadata = <T extends Record<string, unknown>>(
     uid: user.uid
   }
 }
+
+export const withModifiedMetadata = <T extends Record<string, unknown>>(
+  data: T
+): T & { updated_at: string; updated_timestamp: number } => {
+  const now = Timestamp.now()
+  return {
+    ...data,
+    updated_at: now.toDate().toISOString(),
+    updated_timestamp: now.toMillis()
+  }
+}

@@ -30,10 +30,12 @@ import {
 } from '../dropdown-menu'
 import { cn } from '@/lib/utils'
 import { SidebarApps } from '@/types/sidebar'
-import { TaskTagDialog } from '@/features/tasks/components/task-tag-dialog'
+import {
+  CreateTaskTagDialog,
+  ModifyTaskTagDialog
+} from '@/features/tasks/components/task-tag-dialog'
 import React from 'react'
 import { useAppStore } from '@/stores/use-app-store'
-import { SidebarCustomDropdown } from './custom-dropdown'
 
 const defaultApps = {
   tasks: {
@@ -99,7 +101,7 @@ const extractAppPath = (pathname: string) => {
   return paths.length > 1 ? paths[1] : ''
 }
 
-const customItemsMap = {
+const customListKey = {
   tasks: 'task_tags'
 } as const
 
@@ -107,25 +109,28 @@ export const AppSidebar = () => {
   const location = useLocation()
   const navigate = useNavigate()
 
-  const { apps, loading } = useAppStore()
+  const { apps, loading, setCurrentApp } = useAppStore()
 
   const [sidebarApps, setSidebarApps] = React.useState<SidebarApps>(defaultApps)
 
-  const appId = extractAppPath(location.pathname) as keyof typeof customItemsMap
+  const appId = React.useMemo(() => {
+    return extractAppPath(location.pathname)
+  }, [location.pathname]) as keyof typeof customListKey
+
   const app = sidebarApps[appId]
 
   const handleRoute = (id: string) => navigate(`/app/${id}`)
 
   React.useEffect(() => {
-    if (appId.length > 0 && apps) {
-      const customItems = apps[customItemsMap[appId]]
+    if (apps && appId) {
+      const customList = apps[customListKey[appId]]
       setSidebarApps((prev) => ({
         ...prev,
-        tasks: {
-          ...prev.tasks,
+        [appId]: {
+          ...prev[appId],
           custom: {
-            ...prev.tasks.custom,
-            list: customItems.map(({ name, id }) => ({
+            ...prev[appId].custom,
+            list: customList.map(({ name, id }) => ({
               id,
               title: name,
               path: id
@@ -133,8 +138,9 @@ export const AppSidebar = () => {
           }
         }
       }))
+      setCurrentApp({ id: appId })
     }
-  }, [apps, appId])
+  }, [apps, appId, setCurrentApp])
 
   return (
     <Sidebar variant="floating">
@@ -192,7 +198,7 @@ export const AppSidebar = () => {
           <SidebarGroup>
             <SidebarGroupLabel className="justify-between">
               {app.custom.name}
-              <TaskTagDialog />
+              <CreateTaskTagDialog />
             </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
@@ -208,9 +214,6 @@ export const AppSidebar = () => {
                     return (
                       <SidebarMenuItem key={item.id}>
                         <SidebarMenuButton
-                          tooltip={
-                            item.title.length > 20 ? item.title : undefined
-                          }
                           isActive={location.pathname.includes(item.path)}
                           asChild
                         >
@@ -219,13 +222,16 @@ export const AppSidebar = () => {
                             <span>{item.title}</span>
                           </Link>
                         </SidebarMenuButton>
-                        <SidebarCustomDropdown />
+                        <ModifyTaskTagDialog
+                          id={item.id}
+                          data={{ name: item.title }}
+                        />
                       </SidebarMenuItem>
                     )
                   })
                 ) : (
                   <SidebarMenuItem>
-                    <div className="flex h-20 w-full items-center justify-center text-xs text-muted-foreground">
+                    <div className="flex h-20 w-full items-center justify-center rounded-lg bg-border text-xs text-muted-foreground">
                       Empty
                     </div>
                   </SidebarMenuItem>

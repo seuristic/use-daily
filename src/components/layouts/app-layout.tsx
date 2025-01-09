@@ -3,7 +3,7 @@ import { SidebarProvider } from '../ui/sidebar'
 import { AppSidebar } from '../ui/sidebars'
 import { Head } from '../ui/seo'
 import { AppNavbar } from '../navbars/app-navbar'
-import { getTaskTags } from '@/features/tasks/api/get-task-tags'
+import { getTaskTags } from '@/features/tasks/api/task-tag'
 import { useAppStore } from '@/stores/use-app-store'
 import React from 'react'
 
@@ -13,17 +13,17 @@ type AppLayoutProps = {
 }
 
 export const AppLayout = ({ children, title }: AppLayoutProps) => {
-  const { setApps, setLoading } = useAppStore()
+  const { refetched, setApps, setLoading } = useAppStore()
 
   React.useEffect(() => {
-    const fetchTaskTags = async () => {
+    const fetchApps = async () => {
       const data = await getTaskTags()
       setApps({ task_tags: data })
       setLoading(false)
     }
 
-    fetchTaskTags()
-  }, [setApps, setLoading])
+    fetchApps()
+  }, [refetched, setApps, setLoading])
 
   return (
     <SidebarProvider>

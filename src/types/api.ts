@@ -6,6 +6,8 @@ export type BaseEntity = {
   id: string
   created_at: string
   created_timestamp: number
+  updated_at?: string
+  updated_timestamp?: number
 }
 
 export type Entity<T> = Flatten<T & BaseEntity>
