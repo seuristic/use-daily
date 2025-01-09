@@ -231,7 +231,7 @@ export const AppSidebar = () => {
                   })
                 ) : (
                   <SidebarMenuItem>
-                    <div className="flex h-20 w-full items-center justify-center rounded-lg bg-border text-xs text-muted-foreground">
+                    <div className="grid aspect-video place-items-center rounded-lg border-2 border-dashed text-xs text-muted-foreground">
                       Empty
                     </div>
                   </SidebarMenuItem>
