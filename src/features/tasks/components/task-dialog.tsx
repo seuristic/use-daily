@@ -13,18 +13,16 @@ import { Input } from '@/components/ui/input'
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import { LoaderIcon, XIcon } from 'lucide-react'
-import React from 'react'
-import {
-  createTask,
-  CreateTaskForm,
-  CreateTaskSchema
-} from '../api/create-task'
+import * as React from 'react'
+import { createTask, TaskForm, TaskSchema } from '../api/task'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
@@ -34,17 +32,48 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/form'
+import { useAppStore } from '@/stores/use-app-store'
+import { TaskTag } from '@/types/api'
 
 export const TaskDialog = () => {
-  const [open, setOpen] = React.useState(false)
+  const [dialogOpen, setDialogOpen] = React.useState(false)
+  const [selectOpen, setSelectOpen] = React.useState(false)
   const [isSubmitting, setIsSubmitting] = React.useState(false)
+  const [tag, setTag] = React.useState('')
 
-  const form = useForm<CreateTaskForm>({
-    resolver: zodResolver(CreateTaskSchema),
+  const { apps } = useAppStore()
+
+  const tagsMap = React.useMemo(() => {
+    return apps.task_tags.reduce(
+      (map, tag) => {
+        map[tag.id] = tag
+        return map
+      },
+      {} as { [id: string]: TaskTag }
+    )
+  }, [apps])
+
+  const form = useForm<TaskForm>({
+    resolver: zodResolver(TaskSchema),
     defaultValues: { title: '', description: '', tags: [] }
   })
 
-  const onSubmit = async (data: CreateTaskForm) => {
+  const { watch, setValue } = form
+  const selectedTags = watch('tags')
+
+  const addTag = (tag: string) => {
+    setValue('tags', [...selectedTags, tag])
+    setTag('')
+  }
+
+  const removeTag = (tag: string) => {
+    setValue(
+      'tags',
+      selectedTags.filter((t) => t !== tag)
+    )
+  }
+
+  const onSubmit = async (data: TaskForm) => {
     setIsSubmitting(true)
 
     try {
@@ -53,7 +82,7 @@ export const TaskDialog = () => {
       console.log('CREATED TASK', task)
 
       form.reset()
-      setOpen(false)
+      setDialogOpen(false)
     } catch (error) {
       console.error(error)
     } finally {
@@ -62,11 +91,14 @@ export const TaskDialog = () => {
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>
         <Button variant="outline">New</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent
+        onEscapeKeyDown={(e) => selectOpen && e.preventDefault()}
+        className="sm:max-w-md"
+      >
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <DialogHeader>
@@ -80,8 +112,12 @@ export const TaskDialog = () => {
               name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Title</FormLabel>
-                  <Input {...field} placeholder="Add a task title" />
+                  <FormLabel htmlFor={field.name}>Title</FormLabel>
+                  <Input
+                    id={field.name}
+                    {...field}
+                    placeholder="Add a task title"
+                  />
                   <FormMessage />
                 </FormItem>
               )}
@@ -91,8 +127,9 @@ export const TaskDialog = () => {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel htmlFor={field.name}>Description</FormLabel>
                   <Textarea
+                    id={field.name}
                     {...field}
                     className="max-h-64"
                     placeholder="Write down the task description here"
@@ -104,39 +141,63 @@ export const TaskDialog = () => {
             <FormField
               control={form.control}
               name="tags"
-              render={() => (
+              render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Tags</FormLabel>
-                  <div className="space-y-2 rounded-md border border-dashed p-2">
-                    <div className="flex flex-wrap gap-2">
-                      {Array(10)
-                        .fill(0)
-                        .map((_, index) => (
-                          <Badge
-                            key={index}
-                            variant={'secondary'}
-                            className="inline-flex items-center gap-1 p-1"
-                          >
-                            <span className="px-1">Tag {index + 1}</span>
-                            <span className="rounded-full bg-gray-700 p-0.5">
-                              <XIcon size={12} />
-                            </span>
-                          </Badge>
-                        ))}
-                    </div>
-                    <div className="flex h-[50px] w-full items-center justify-center text-sm text-muted-foreground">
-                      No tags selected
-                    </div>
-                    <Select>
-                      <SelectTrigger className="w-full">
+                  <FormLabel htmlFor={field.name}>Tags</FormLabel>
+                  <div className="flex h-32 flex-col gap-y-4 rounded-lg border p-2">
+                    {selectedTags.length > 0 ? (
+                      <div className="flex-1 overflow-y-auto">
+                        <div className="flex h-full flex-wrap items-start gap-2">
+                          {selectedTags.map((tag) => (
+                            <Badge
+                              key={tag}
+                              variant={'outline'}
+                              className="flex h-fit items-center gap-1 p-1 hover:cursor-pointer hover:bg-secondary"
+                              onClick={() => removeTag(tag)}
+                            >
+                              <span className="px-1">
+                                {tagsMap[tag]['name']}
+                              </span>
+                              <span className="p-0.5">
+                                <XIcon size={12} />
+                              </span>
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="flex w-full flex-1 items-center justify-center text-sm text-muted-foreground">
+                        No tags selected
+                      </div>
+                    )}
+                    <Select
+                      value={tag}
+                      onValueChange={addTag}
+                      open={selectOpen}
+                      onOpenChange={setSelectOpen}
+                    >
+                      <SelectTrigger id={field.name} className="w-full">
                         <SelectValue placeholder="Select tags" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem className="w-full" value="light">
-                          Light
-                        </SelectItem>
-                        <SelectItem value="dark">Dark</SelectItem>
-                        <SelectItem value="system">System</SelectItem>
+                        <SelectGroup>
+                          <SelectLabel>Tags</SelectLabel>
+                          {apps.task_tags.length > 0 ? (
+                            apps.task_tags.map((item) => (
+                              <SelectItem
+                                key={item.id}
+                                value={item.id}
+                                disabled={selectedTags.includes(item.id)}
+                              >
+                                {item.name}
+                              </SelectItem>
+                            ))
+                          ) : (
+                            <SelectItem disabled value="no-tags">
+                              No tags
+                            </SelectItem>
+                          )}
+                        </SelectGroup>
                       </SelectContent>
                     </Select>
                   </div>

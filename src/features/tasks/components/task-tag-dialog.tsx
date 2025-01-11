@@ -7,6 +7,7 @@ import { EllipsisVerticalIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -38,6 +39,19 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from '@/components/ui/alert-dialog'
+
+type OpenedStateType = 'edit' | 'delete' | undefined
 
 /* COMPONENT: Create */
 export const CreateTaskTagDialog = () => {
@@ -120,7 +134,7 @@ export type ModifyTaskTagDialogProps = {
 
 export const ModifyTaskTagDialog = ({ id, data }: ModifyTaskTagDialogProps) => {
   const [open, setOpen] = React.useState(false)
-  const [openedDialog, setOpenedDialog] = React.useState<'edit' | 'delete'>()
+  const [openedDialog, setOpenedDialog] = React.useState<OpenedStateType>()
   const [isSubmitting, setIsSubmitting] = React.useState(false)
   const [isDeleting, setIsDeleting] = React.useState(false)
 
@@ -131,7 +145,7 @@ export const ModifyTaskTagDialog = ({ id, data }: ModifyTaskTagDialogProps) => {
     defaultValues: { name: data.name }
   })
 
-  const onEditSubmit = async (data: TaskTagForm) => {
+  const onEdit = async (data: TaskTagForm) => {
     setIsSubmitting(true)
 
     try {
@@ -147,7 +161,7 @@ export const ModifyTaskTagDialog = ({ id, data }: ModifyTaskTagDialogProps) => {
     }
   }
 
-  const onDeleteSubmit = async () => {
+  const onDelete = async () => {
     setIsDeleting(true)
 
     try {
@@ -163,91 +177,116 @@ export const ModifyTaskTagDialog = ({ id, data }: ModifyTaskTagDialogProps) => {
     }
   }
 
-  return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DropdownMenu modal={false}>
-        <DropdownMenuTrigger asChild>
-          <SidebarMenuAction onClick={(e) => e.stopPropagation()} showOnHover>
-            <EllipsisVerticalIcon />
-          </SidebarMenuAction>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent side="right" align="start">
-          <DialogTrigger onClick={() => setOpenedDialog('edit')} asChild>
+  if (openedDialog === 'delete') {
+    return (
+      <AlertDialog open={open} onOpenChange={setOpen}>
+        <DropdownMenuComponent>
+          <AlertDialogTrigger onClick={() => setOpenedDialog('edit')} asChild>
             <DropdownMenuItem>
               <span>Edit</span>
             </DropdownMenuItem>
-          </DialogTrigger>
-          <DialogTrigger onClick={() => setOpenedDialog('delete')} asChild>
+          </AlertDialogTrigger>
+          <AlertDialogTrigger onClick={() => setOpenedDialog('delete')} asChild>
             <DropdownMenuItem>
               <span>Delete</span>
             </DropdownMenuItem>
-          </DialogTrigger>
-        </DropdownMenuContent>
-      </DropdownMenu>
+          </AlertDialogTrigger>
+        </DropdownMenuComponent>
+
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Tag</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete the tag{' '}
+              <strong className="text-primary">{data.name}</strong> and remove
+              from the server.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction asChild>
+              <Button
+                onClick={onDelete}
+                disabled={isDeleting}
+                variant="destructive"
+                type="submit"
+              >
+                <LoaderIcon
+                  size={16}
+                  className={`animate-spin ${isDeleting ? 'block' : 'hidden'}`}
+                />
+                Delete
+              </Button>
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    )
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DropdownMenuComponent>
+        <DialogTrigger onClick={() => setOpenedDialog('edit')} asChild>
+          <DropdownMenuItem>
+            <span>Edit</span>
+          </DropdownMenuItem>
+        </DialogTrigger>
+        <DialogTrigger onClick={() => setOpenedDialog('delete')} asChild>
+          <DropdownMenuItem>
+            <span>Delete</span>
+          </DropdownMenuItem>
+        </DialogTrigger>
+      </DropdownMenuComponent>
 
       <DialogContent className="sm:max-w-md">
-        {openedDialog === 'edit' ? (
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onEditSubmit)}
-              className="space-y-4"
-            >
-              <DialogHeader>
-                <DialogTitle>Edit Tag</DialogTitle>
-                <DialogDescription>Update an existing tag</DialogDescription>
-              </DialogHeader>
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Name</FormLabel>
-                    <Input {...field} placeholder="Write tag name" />
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <DialogFooter className="sm:justify-start">
-                <div className="flex w-full justify-end gap-2">
-                  <Button type="submit" disabled={isSubmitting}>
-                    <LoaderIcon
-                      size={16}
-                      className={`animate-spin ${isSubmitting ? 'block' : 'hidden'}`}
-                    />
-                    Submit
-                  </Button>
-                </div>
-              </DialogFooter>
-            </form>
-          </Form>
-        ) : (
-          <>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onEdit)} className="space-y-4">
             <DialogHeader>
-              <DialogTitle>Delete Tag</DialogTitle>
-              <DialogDescription>
-                Are you sure you want to delete:{' '}
-                <strong className="text-primary">{data.name}</strong> tag?
-              </DialogDescription>
+              <DialogTitle>Edit Tag</DialogTitle>
+              <DialogDescription>Update an existing tag</DialogDescription>
             </DialogHeader>
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <Input {...field} placeholder="Write tag name" />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <DialogFooter className="sm:justify-start">
               <div className="flex w-full justify-end gap-2">
-                <Button
-                  variant={'destructive'}
-                  type={'submit'}
-                  disabled={isDeleting}
-                  onClick={onDeleteSubmit}
-                >
+                <DialogClose>
+                  <Button variant="outline">Discard</Button>
+                </DialogClose>
+                <Button type="submit" disabled={isSubmitting}>
                   <LoaderIcon
                     size={16}
-                    className={`animate-spin ${isDeleting ? 'block' : 'hidden'}`}
+                    className={`animate-spin ${isSubmitting ? 'block' : 'hidden'}`}
                   />
-                  Delete
+                  Update
                 </Button>
               </div>
             </DialogFooter>
-          </>
-        )}
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   )
 }
+
+const DropdownMenuComponent = ({ children }: { children: React.ReactNode }) => (
+  <DropdownMenu modal={false}>
+    <DropdownMenuTrigger asChild>
+      <SidebarMenuAction onClick={(e) => e.stopPropagation()} showOnHover>
+        <EllipsisVerticalIcon />
+      </SidebarMenuAction>
+    </DropdownMenuTrigger>
+    <DropdownMenuContent side="right" align="start">
+      {children}
+    </DropdownMenuContent>
+  </DropdownMenu>
+)
