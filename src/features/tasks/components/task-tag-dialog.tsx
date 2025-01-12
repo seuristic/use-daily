@@ -280,11 +280,11 @@ export const ModifyTaskTagDialog = ({ id, data }: ModifyTaskTagDialogProps) => {
 
 const DropdownMenuComponent = ({ children }: { children: React.ReactNode }) => (
   <DropdownMenu modal={false}>
-    <DropdownMenuTrigger asChild>
-      <SidebarMenuAction onClick={(e) => e.stopPropagation()} showOnHover>
+    <SidebarMenuAction showOnHover>
+      <DropdownMenuTrigger asChild>
         <EllipsisVerticalIcon />
-      </SidebarMenuAction>
-    </DropdownMenuTrigger>
+      </DropdownMenuTrigger>
+    </SidebarMenuAction>
     <DropdownMenuContent side="right" align="start">
       {children}
     </DropdownMenuContent>
