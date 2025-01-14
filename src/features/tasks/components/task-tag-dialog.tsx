@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import { LoaderIcon, PlusIcon } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -24,7 +24,7 @@ import {
   FormMessage
 } from '@/components/ui/form'
 import { useAppStore } from '@/stores/use-app-store'
-import { SidebarGroupAction } from '@/components/ui/sidebar'
+import { SidebarGroupAction, useSidebar } from '@/components/ui/sidebar'
 import { SidebarMenuAction } from '@/components/ui/sidebar'
 import {
   TaskTagForm,
@@ -134,7 +134,7 @@ export type ModifyTaskTagDialogProps = {
 
 export const ModifyTaskTagDialog = ({ id, data }: ModifyTaskTagDialogProps) => {
   const [open, setOpen] = React.useState(false)
-  const [openedDialog, setOpenedDialog] = React.useState<OpenedStateType>()
+  const [dialogType, setDialogType] = React.useState<OpenedStateType>()
   const [isSubmitting, setIsSubmitting] = React.useState(false)
   const [isDeleting, setIsDeleting] = React.useState(false)
 
@@ -177,22 +177,10 @@ export const ModifyTaskTagDialog = ({ id, data }: ModifyTaskTagDialogProps) => {
     }
   }
 
-  if (openedDialog === 'delete') {
+  if (dialogType === 'delete') {
     return (
       <AlertDialog open={open} onOpenChange={setOpen}>
-        <DropdownMenuComponent>
-          <AlertDialogTrigger onClick={() => setOpenedDialog('edit')} asChild>
-            <DropdownMenuItem>
-              <span>Edit</span>
-            </DropdownMenuItem>
-          </AlertDialogTrigger>
-          <AlertDialogTrigger onClick={() => setOpenedDialog('delete')} asChild>
-            <DropdownMenuItem>
-              <span>Delete</span>
-            </DropdownMenuItem>
-          </AlertDialogTrigger>
-        </DropdownMenuComponent>
-
+        <CustomDropdownMenu dialogType="delete" setDialogType={setDialogType} />
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Tag</AlertDialogTitle>
@@ -226,18 +214,7 @@ export const ModifyTaskTagDialog = ({ id, data }: ModifyTaskTagDialogProps) => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DropdownMenuComponent>
-        <DialogTrigger onClick={() => setOpenedDialog('edit')} asChild>
-          <DropdownMenuItem>
-            <span>Edit</span>
-          </DropdownMenuItem>
-        </DialogTrigger>
-        <DialogTrigger onClick={() => setOpenedDialog('delete')} asChild>
-          <DropdownMenuItem>
-            <span>Delete</span>
-          </DropdownMenuItem>
-        </DialogTrigger>
-      </DropdownMenuComponent>
+      <CustomDropdownMenu dialogType="edit" setDialogType={setDialogType} />
 
       <DialogContent className="sm:max-w-md">
         <Form {...form}>
@@ -259,7 +236,7 @@ export const ModifyTaskTagDialog = ({ id, data }: ModifyTaskTagDialogProps) => {
             />
             <DialogFooter className="sm:justify-start">
               <div className="flex w-full justify-end gap-2">
-                <DialogClose>
+                <DialogClose asChild>
                   <Button variant="outline">Discard</Button>
                 </DialogClose>
                 <Button type="submit" disabled={isSubmitting}>
@@ -278,15 +255,39 @@ export const ModifyTaskTagDialog = ({ id, data }: ModifyTaskTagDialogProps) => {
   )
 }
 
-const DropdownMenuComponent = ({ children }: { children: React.ReactNode }) => (
-  <DropdownMenu modal={false}>
-    <SidebarMenuAction showOnHover>
+const CustomDropdownMenu = ({
+  dialogType,
+  setDialogType
+}: {
+  dialogType: 'edit' | 'delete' | undefined
+  setDialogType: React.Dispatch<
+    React.SetStateAction<'edit' | 'delete' | undefined>
+  >
+}) => {
+  const { isMobile } = useSidebar()
+
+  const CustomDropdownTrigger =
+    dialogType === 'edit' ? DialogTrigger : AlertDialogTrigger
+
+  return (
+    <DropdownMenu modal={isMobile}>
       <DropdownMenuTrigger asChild>
-        <EllipsisVerticalIcon />
+        <SidebarMenuAction showOnHover>
+          <EllipsisVerticalIcon />
+        </SidebarMenuAction>
       </DropdownMenuTrigger>
-    </SidebarMenuAction>
-    <DropdownMenuContent side="right" align="start">
-      {children}
-    </DropdownMenuContent>
-  </DropdownMenu>
-)
+      <DropdownMenuContent side="right" align="start">
+        <CustomDropdownTrigger onClick={() => setDialogType('edit')} asChild>
+          <DropdownMenuItem>
+            <span>Edit</span>
+          </DropdownMenuItem>
+        </CustomDropdownTrigger>
+        <CustomDropdownTrigger onClick={() => setDialogType('delete')} asChild>
+          <DropdownMenuItem>
+            <span>Delete</span>
+          </DropdownMenuItem>
+        </CustomDropdownTrigger>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
